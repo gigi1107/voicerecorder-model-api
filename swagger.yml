@@ -90,23 +90,21 @@ paths:
           content: {}
       x-codegen-request-body-name: phrase
       x-openapi-router-controller: swagger_server.controllers.phrase_controller
-  /phrase/{numberPhrases}:
+  /phrase/phrases:
     post:
       tags:
         - phrase
       summary: Retrieves a given number of phrases from the Database
       description: Number should be greater than 0.
       operationId: get_phrase
-      parameters:
-        - name: numberPhrases
-          in: path
-          description: The number(amount) of phrases to retrieve from the Database
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
-            format: int64
+      requestBody:
+        description: Number of phrases to retrieve from the DB
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int64
+        required: true
       responses:
         "200":
           description: successful operation
