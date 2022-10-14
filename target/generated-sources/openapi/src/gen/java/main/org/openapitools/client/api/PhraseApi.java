@@ -327,7 +327,7 @@ public class PhraseApi {
         return localVarCall;
     }
     /**
-     * Build call for getPhrase
+     * Build call for getPhrases
      * @param numberPhrases The number(amount) of phrases to retrieve from the Database (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -390,7 +390,7 @@ public class PhraseApi {
         
         // verify the required parameter 'numberPhrases' is set
         if (numberPhrases == null) {
-            throw new ApiException("Missing the required parameter 'numberPhrases' when calling getPhrase(Async)");
+            throw new ApiException("Missing the required parameter 'numberPhrases' when calling getPhrases(Async)");
         }
         
 

@@ -1,9 +1,11 @@
 package com.voicerecorder.repository;
 
 
-import org.springframework.stereotype.Repository;
 
-@Repository
-public class UserRepository {
+import com.voicerecorder.EntityModels.UserEntity;
+import org.springframework.data.repository.CrudRepository;
+
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
+
 
 }
