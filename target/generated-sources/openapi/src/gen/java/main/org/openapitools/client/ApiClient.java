@@ -23,7 +23,6 @@ import okio.BufferedSink;
 import okio.Okio;
 
 import javax.net.ssl.*;
-import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

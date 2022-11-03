@@ -64,8 +64,8 @@ public class PhraseApiTest {
      */
     @Test
     public void getPhraseTest() throws ApiException {
-        Long numberPhrases = null;
-        List<Phrase> response = api.getPhrase(numberPhrases);
+        Long body = null;
+        List<Phrase> response = api.getPhrase(body);
         // TODO: test validations
     }
 

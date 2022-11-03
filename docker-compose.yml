@@ -1,0 +1,35 @@
+version: '3'
+services:
+#  voicerecorder:
+#    image: voicerecorder:$TAG
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      args:
+#        JAR_FILE: $JAR_FILE
+#    environment:
+#      CLOUD_AWS_REGION: us-west-1
+#      JAVA_OPTS: >
+#        -Dspring.profiles.active=dev -Dcloud.aws.region.static=${CLOUD_AWS_REGION}
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - db
+#    networks:
+#      - voicerecorder_network
+
+  db:
+    container_name: docker.voicerecorder.db
+    image: postgres:13.5
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+    networks:
+      - voicerecorder_network
+
+
+networks:
+  voicerecorder_network:
+    driver: bridge

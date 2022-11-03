@@ -6,7 +6,7 @@ All URIs are relative to *https://indigenous.io/v1*
 |------------- | ------------- | -------------|
 | [**addPhrase**](PhraseApi.md#addPhrase) | **POST** /phrase | Add a new phrase to the Database |
 | [**deletePhrase**](PhraseApi.md#deletePhrase) | **DELETE** /phrase/{phraseId} | Delete an existing phrase |
-| [**getPhrase**](PhraseApi.md#getPhrase) | **POST** /phrase/{numberPhrases} | Retrieves a given number of phrases from the Database |
+| [**getPhrase**](PhraseApi.md#getPhrase) | **POST** /phrase/phrases | Retrieves a given number of phrases from the Database |
 | [**updatePhrase**](PhraseApi.md#updatePhrase) | **PUT** /phrase | Update an existing phrase |
 
 
@@ -132,7 +132,7 @@ No authorization required
 
 <a name="getPhrase"></a>
 # **getPhrase**
-> List&lt;Phrase&gt; getPhrase(numberPhrases)
+> List&lt;Phrase&gt; getPhrase(body)
 
 Retrieves a given number of phrases from the Database
 
@@ -153,9 +153,9 @@ public class Example {
     defaultClient.setBasePath("https://indigenous.io/v1");
 
     PhraseApi apiInstance = new PhraseApi(defaultClient);
-    Long numberPhrases = 56L; // Long | The number(amount) of phrases to retrieve from the Database
+    Long body = 56L; // Long | Number of phrases to retrieve from the DB
     try {
-      List<Phrase> result = apiInstance.getPhrase(numberPhrases);
+      List<Phrase> result = apiInstance.getPhrase(body);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling PhraseApi#getPhrase");
@@ -172,7 +172,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **numberPhrases** | **Long**| The number(amount) of phrases to retrieve from the Database | |
+| **body** | **Long**| Number of phrases to retrieve from the DB | |
 
 ### Return type
 
@@ -184,7 +184,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details

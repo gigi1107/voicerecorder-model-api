@@ -2,6 +2,7 @@ package com.voicerecorder.service;
 
 
 import com.voicerecorder.EntityModels.PhraseEntity;
+import com.voicerecorder.EntityModels.UserEntity;
 import com.voicerecorder.Responses.PhrasesResponse;
 import com.voicerecorder.repository.PhraseRepository;
 import com.voicerecorder.repository.UserRepository;
@@ -43,6 +44,18 @@ public class VoiceRecorderService {
 
 
     //user stuff
+
+    public void addUser(UserEntity userEntity) {
+        userRepository.save(userEntity);
+    }
+
+    public void deleteUser(UserEntity userEntity) {
+        userRepository.delete(userEntity);
+    }
+
+    public void updateUser(UserEntity userEntity) {
+        userRepository.updateUser(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPhone());
+    }
 
 
 }

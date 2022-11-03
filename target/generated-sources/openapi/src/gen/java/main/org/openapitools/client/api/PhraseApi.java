@@ -327,8 +327,8 @@ public class PhraseApi {
         return localVarCall;
     }
     /**
-     * Build call for getPhrases
-     * @param numberPhrases The number(amount) of phrases to retrieve from the Database (required)
+     * Build call for getPhrase
+     * @param body Number of phrases to retrieve from the DB (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -339,7 +339,7 @@ public class PhraseApi {
         <tr><td> 400 </td><td> Invalid numberPhrases value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getPhraseCall(Long numberPhrases, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getPhraseCall(Long body, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -353,11 +353,10 @@ public class PhraseApi {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        Object localVarPostBody = body;
 
         // create path and map variables
-        String localVarPath = "/phrase/{numberPhrases}"
-            .replaceAll("\\{" + "numberPhrases" + "\\}", localVarApiClient.escapeString(numberPhrases.toString()));
+        String localVarPath = "/phrase/phrases";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -374,7 +373,7 @@ public class PhraseApi {
         }
 
         final String[] localVarContentTypes = {
-            
+            "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -386,15 +385,15 @@ public class PhraseApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getPhraseValidateBeforeCall(Long numberPhrases, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getPhraseValidateBeforeCall(Long body, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'numberPhrases' is set
-        if (numberPhrases == null) {
-            throw new ApiException("Missing the required parameter 'numberPhrases' when calling getPhrases(Async)");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling getPhrase(Async)");
         }
         
 
-        okhttp3.Call localVarCall = getPhraseCall(numberPhrases, _callback);
+        okhttp3.Call localVarCall = getPhraseCall(body, _callback);
         return localVarCall;
 
     }
@@ -402,7 +401,7 @@ public class PhraseApi {
     /**
      * Retrieves a given number of phrases from the Database
      * Number should be greater than 0.
-     * @param numberPhrases The number(amount) of phrases to retrieve from the Database (required)
+     * @param body Number of phrases to retrieve from the DB (required)
      * @return List&lt;Phrase&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -412,15 +411,15 @@ public class PhraseApi {
         <tr><td> 400 </td><td> Invalid numberPhrases value </td><td>  -  </td></tr>
      </table>
      */
-    public List<Phrase> getPhrase(Long numberPhrases) throws ApiException {
-        ApiResponse<List<Phrase>> localVarResp = getPhraseWithHttpInfo(numberPhrases);
+    public List<Phrase> getPhrase(Long body) throws ApiException {
+        ApiResponse<List<Phrase>> localVarResp = getPhraseWithHttpInfo(body);
         return localVarResp.getData();
     }
 
     /**
      * Retrieves a given number of phrases from the Database
      * Number should be greater than 0.
-     * @param numberPhrases The number(amount) of phrases to retrieve from the Database (required)
+     * @param body Number of phrases to retrieve from the DB (required)
      * @return ApiResponse&lt;List&lt;Phrase&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -430,8 +429,8 @@ public class PhraseApi {
         <tr><td> 400 </td><td> Invalid numberPhrases value </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<List<Phrase>> getPhraseWithHttpInfo(Long numberPhrases) throws ApiException {
-        okhttp3.Call localVarCall = getPhraseValidateBeforeCall(numberPhrases, null);
+    public ApiResponse<List<Phrase>> getPhraseWithHttpInfo(Long body) throws ApiException {
+        okhttp3.Call localVarCall = getPhraseValidateBeforeCall(body, null);
         Type localVarReturnType = new TypeToken<List<Phrase>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -439,7 +438,7 @@ public class PhraseApi {
     /**
      * Retrieves a given number of phrases from the Database (asynchronously)
      * Number should be greater than 0.
-     * @param numberPhrases The number(amount) of phrases to retrieve from the Database (required)
+     * @param body Number of phrases to retrieve from the DB (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -450,9 +449,9 @@ public class PhraseApi {
         <tr><td> 400 </td><td> Invalid numberPhrases value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getPhraseAsync(Long numberPhrases, final ApiCallback<List<Phrase>> _callback) throws ApiException {
+    public okhttp3.Call getPhraseAsync(Long body, final ApiCallback<List<Phrase>> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getPhraseValidateBeforeCall(numberPhrases, _callback);
+        okhttp3.Call localVarCall = getPhraseValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<List<Phrase>>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

@@ -2,7 +2,7 @@
 
 Phrase Recorder API
 - API version: 1.0.0
-  - Build date: 2022-10-09T22:17:02.516303-07:00[America/Los_Angeles]
+  - Build date: 2022-11-02T18:19:31.815332-07:00[America/Los_Angeles]
 
 This is the API for the Phrase Recorder App.
 
@@ -115,7 +115,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *PhraseApi* | [**addPhrase**](docs/PhraseApi.md#addPhrase) | **POST** /phrase | Add a new phrase to the Database
 *PhraseApi* | [**deletePhrase**](docs/PhraseApi.md#deletePhrase) | **DELETE** /phrase/{phraseId} | Delete an existing phrase
-*PhraseApi* | [**getPhrase**](docs/PhraseApi.md#getPhrase) | **POST** /phrase/{numberPhrases} | Retrieves a given number of phrases from the Database
+*PhraseApi* | [**getPhrase**](docs/PhraseApi.md#getPhrase) | **POST** /phrase/phrases | Retrieves a given number of phrases from the Database
 *PhraseApi* | [**updatePhrase**](docs/PhraseApi.md#updatePhrase) | **PUT** /phrase | Update an existing phrase
 *UserApi* | [**createUser**](docs/UserApi.md#createUser) | **POST** /user | Creates user with given info
 *UserApi* | [**deleteUser**](docs/UserApi.md#deleteUser) | **DELETE** /user/{userId} | Delete an existing user
