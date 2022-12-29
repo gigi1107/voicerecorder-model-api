@@ -1,6 +1,16 @@
-FROM openjdk:11
+FROM openjdk:19
 
 EXPOSE 8080
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    apt-utils \
+    curl \
+    sudo \
+    vim \
+    postgresql \
+    postgresql-contrib
+
+
 
 ARG JAR_FILE=*.jar
 

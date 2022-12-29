@@ -9,9 +9,6 @@ services:
         JAR_FILE: $JAR_FILE
     environment:
       CLOUD_AWS_REGION: us-west-1
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: password
       JAVA_OPTS: >
         -Dspring.profiles.active=dev -Dcloud.aws.region.static=${CLOUD_AWS_REGION}
 

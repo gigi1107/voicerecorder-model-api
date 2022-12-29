@@ -1,29 +1,28 @@
 package com.voicerecorder.service;
 
 
-import com.voicerecorder.EntityModels.PhraseEntity;
-import com.voicerecorder.EntityModels.UserEntity;
-import com.voicerecorder.Responses.PhrasesResponse;
+import com.voicerecorder.entity.PhraseEntity;
+import com.voicerecorder.entity.UserEntity;
 import com.voicerecorder.repository.PhraseRepository;
 import com.voicerecorder.repository.UserRepository;
-import org.openapitools.client.model.Phrase;
+import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @org.springframework.stereotype.Service
 public class VoiceRecorderService {
 
+    @Autowired
     private PhraseRepository phraseRepository;
 
+    @Autowired
     private UserRepository userRepository;
 
     public PhraseEntity healthCheck() {
         PhraseEntity response = new PhraseEntity();
 
         try {
-            phraseRepository.save(new PhraseEntity(1L, "test", "test2", "blah"));
+            phraseRepository.save(new PhraseEntity());
 //            response = phraseRepository.getReferenceById(1L);
         } catch (Exception e) {
             System.out.println("There was an error");
@@ -46,13 +45,13 @@ public class VoiceRecorderService {
         phraseRepository.deleteById(id);
     }
 
-    public void updatePhrase(PhraseEntity phraseEntity) {
-        phraseRepository.updatePhrase(phraseEntity.getId(), phraseEntity.getOriginal(), phraseEntity.getTranslation(), phraseEntity.getExampleRecording());
-    }
+//    public void updatePhrase(PhraseEntity Phrase) {
+////        phraseRepository.updatePhrase(Phrase.getId(), Phrase.getOriginal(), Phrase.getTranslation(), Phrase.getExampleRecording());
+//    }
 
 //    //todo implement some logic so that it's not just the same phrases over and over
 //    public PhrasesResponse getPhrases (int number) {
-//        List<PhraseEntity> phraseEntities =  phraseRepository.getNumberOfPhrases(number);
+//        List<Phrase> phraseEntities =  phraseRepository.getNumberOfPhrases(number);
 //        List<Phrase> phrases = new ArrayList<>();
 //        phrases.addAll(phraseEntities);
 //
@@ -62,17 +61,17 @@ public class VoiceRecorderService {
 
     //user stuff
 
-    public void addUser(UserEntity userEntity) {
-        userRepository.save(userEntity);
+    public void addUser(UserEntity user) {
+        userRepository.save(user);
     }
 
-    public void deleteUser(UserEntity userEntity) {
-        userRepository.delete(userEntity);
+    public void deleteUser(UserEntity user) {
+        userRepository.delete(user);
     }
 
-    public void updateUser(UserEntity userEntity) {
-        userRepository.updateUser(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPhone());
-    }
+//    public void updateUser(UserEntity user) {
+////        userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getProject());
+//    }
 
 
 }

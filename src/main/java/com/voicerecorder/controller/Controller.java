@@ -1,15 +1,12 @@
 package com.voicerecorder.controller;
 
 
-import com.voicerecorder.EntityModels.PhraseEntity;
-import com.voicerecorder.Responses.PhrasesResponse;
+import com.voicerecorder.entity.PhraseEntity;
 import com.voicerecorder.service.VoiceRecorderService;
-import org.openapitools.client.model.Phrase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -17,6 +14,9 @@ public class Controller {
 
     @Autowired
     VoiceRecorderService voiceRecorderService;
+
+    @Autowired
+    public JdbcTemplate template;
 
     @GetMapping("/ping")
     public ResponseEntity<PhraseEntity> ping() {
@@ -29,23 +29,23 @@ public class Controller {
         return ResponseEntity.internalServerError().body(null);
     }
 
-    @PutMapping("/v1/phrase")
-    public ResponseEntity<Void> updatePhrase(@RequestBody Phrase phrase) {
-        try {
-            voiceRecorderService.updatePhrase((PhraseEntity)phrase);
-
-        } catch (Exception e ) {
-            return ResponseEntity.internalServerError().build();
-        }
-        return ResponseEntity.ok().build();
-    }
+//    @PutMapping("/v1/phrase")
+//    public ResponseEntity<Void> updatePhrase(@RequestBody PhraseEntity phrase) {
+//        try {
+//            voiceRecorderService.updatePhrase(phrase);
+//
+//        } catch (Exception e ) {
+//            return ResponseEntity.internalServerError().build();
+//        }
+//        return ResponseEntity.ok().build();
+//    }
 
 
     @PostMapping("/v1/phrase")
     @ResponseBody
-    public ResponseEntity<Void> addPhrase(@RequestBody Phrase phrase) {
+    public ResponseEntity<Void> addPhrase(@RequestBody PhraseEntity phrase) {
         try {
-            voiceRecorderService.addPhrase((PhraseEntity)phrase);
+            voiceRecorderService.addPhrase(phrase);
 
         } catch (Exception e ) {
             return ResponseEntity.internalServerError().build();

@@ -31,4 +31,34 @@ mvn spring-boot:run
 
 ### Make a request
 
-curl http://localhost:8080/ping
+curl -i -v http://localhost:8080/ping
+
+
+
+
+TODO
+
+ <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <!-- RELEASE_VERSION -->
+                <version>6.2.1</version>
+                <!-- /RELEASE_VERSION -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>swagger.yml</inputSpec>
+                            <generatorName>java</generatorName>
+                            <configOptions>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            In a different project so we can have the API
