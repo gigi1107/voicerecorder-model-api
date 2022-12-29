@@ -1,25 +1,29 @@
 version: '3'
 services:
-#  voicerecorder:
-#    image: voicerecorder:$TAG
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#      args:
-#        JAR_FILE: $JAR_FILE
-#    environment:
-#      CLOUD_AWS_REGION: us-west-1
-#      JAVA_OPTS: >
-#        -Dspring.profiles.active=dev -Dcloud.aws.region.static=${CLOUD_AWS_REGION}
-#    ports:
-#      - 8080:8080
-#    depends_on:
-#      - db
-#    networks:
-#      - voicerecorder_network
+  voicerecorder:
+    image: voicerecorder:$TAG
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: $JAR_FILE
+    environment:
+      CLOUD_AWS_REGION: us-west-1
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      JAVA_OPTS: >
+        -Dspring.profiles.active=dev -Dcloud.aws.region.static=${CLOUD_AWS_REGION}
+
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - voicerecorder_network
 
   db:
-    container_name: docker.voicerecorder.db
+    container_name: db
     image: postgres:13.5
     ports:
       - 5432:5432
@@ -28,6 +32,10 @@ services:
       - POSTGRES_USER=postgres
     networks:
       - voicerecorder_network
+    volumes:
+#      - ./postgres-data:/var/lib/postgresql/data
+      # copy the sql script to create tables
+      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
 
 
 networks:

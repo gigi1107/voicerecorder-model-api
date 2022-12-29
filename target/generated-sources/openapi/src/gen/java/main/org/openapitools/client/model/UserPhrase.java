@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * UserPhrase
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-02T18:19:31.815332-07:00[America/Los_Angeles]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-12-28T17:04:42.280234-08:00[America/Los_Angeles]")
 public class UserPhrase {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

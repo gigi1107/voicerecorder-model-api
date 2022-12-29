@@ -26,7 +26,7 @@ public class PhraseEntity extends Phrase {
         this.exampleRecording = exampleRecording;
     }
 
-    protected PhraseEntity() {}
+    public PhraseEntity() {}
 
     public Long getId() {
         return id;

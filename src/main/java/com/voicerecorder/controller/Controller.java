@@ -18,6 +18,17 @@ public class Controller {
     @Autowired
     VoiceRecorderService voiceRecorderService;
 
+    @GetMapping("/ping")
+    public ResponseEntity<PhraseEntity> ping() {
+
+        PhraseEntity response = voiceRecorderService.healthCheck();
+
+        if (response != null) {
+            return ResponseEntity.ok().body(response);
+        }
+        return ResponseEntity.internalServerError().body(null);
+    }
+
     @PutMapping("/v1/phrase")
     public ResponseEntity<Void> updatePhrase(@RequestBody Phrase phrase) {
         try {
@@ -57,15 +68,15 @@ public class Controller {
 
     }
 
-
-    @PostMapping("/v1/phrase/phrases")
-    public ResponseEntity<List<Phrase>> getPhrases(@RequestBody int numberToRetrieve) {
-
-        PhrasesResponse response = voiceRecorderService.getPhrases(numberToRetrieve);
-
-        return ResponseEntity.status(response.getStatus()).body(response.getPhrases());
-
-    }
+//
+//    @PostMapping("/v1/phrase/phrases")
+//    public ResponseEntity<List<Phrase>> getPhrases(@RequestBody int numberToRetrieve) {
+//
+//        PhrasesResponse response = voiceRecorderService.getPhrases(numberToRetrieve);
+//
+//        return ResponseEntity.status(response.getStatus()).body(response.getPhrases());
+//
+//    }
 
 
 }
