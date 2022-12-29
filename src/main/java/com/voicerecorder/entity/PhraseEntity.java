@@ -12,8 +12,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "phrases")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PhraseEntity implements Serializable {
 
     @Id
@@ -31,6 +29,23 @@ public class PhraseEntity implements Serializable {
     @Column(name = "example_path")
     private String exampleRecording;
 
+    public PhraseEntity(Long id, Long phraseSetId, String original, String translation, String exampleRecording) {
+        this.id = id;
+        this.phraseSetId = phraseSetId;
+        this.original = original;
+        this.translation = translation;
+        this.exampleRecording = exampleRecording;
+    }
+
+    public PhraseEntity() {
+    }
+
+    public PhraseEntity(Long phraseSetId, String original, String translation, String exampleRecording) {
+        this.phraseSetId = phraseSetId;
+        this.original = original;
+        this.translation = translation;
+        this.exampleRecording = exampleRecording;
+    }
 
     public Long getId() {
         return id;
@@ -63,17 +78,6 @@ public class PhraseEntity implements Serializable {
     public void setExampleRecording(String exampleRecording) {
         this.exampleRecording = exampleRecording;
     }
-
-    @Override
-    public String toString() {
-        return "PhraseEntity{" +
-                "id=" + id +
-                ", original='" + original + '\'' +
-                ", translation='" + translation + '\'' +
-                ", exampleRecording='" + exampleRecording + '\'' +
-                '}';
-    }
-
 
     public Long getPhraseSetId() {
         return phraseSetId;
