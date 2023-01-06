@@ -3,12 +3,12 @@ This repo contains the swagger.yml and generated Model.
 
 To install this, run
 
-mvn clean install assembly:single
+mvn clean install
 
 
 
 To run via docker compose:
-JAR_FILE=voice-recorder-model-api-1.0-SNAPSHOT-jar-with-dependencies.jar TAG=latest docker-compose up
+JAR_FILE=voice-recorder-model-api-1.0-SNAPSHOT.jar TAG=latest docker-compose up
 
 
 ----
