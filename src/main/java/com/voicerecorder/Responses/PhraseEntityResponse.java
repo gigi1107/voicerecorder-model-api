@@ -1,28 +1,27 @@
 package com.voicerecorder.Responses;
 
 import com.voicerecorder.entity.PhraseEntity;
-import com.voicerecorder.entity.PhraseEntity;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Objects;
 
-public class PhraseEntitysResponse {
+public class PhraseEntityResponse {
 
-    private List<PhraseEntity> PhraseEntitys;
+    private List<PhraseEntity> phraseEntityList;
     private HttpStatus status;
 
-    public PhraseEntitysResponse(List<PhraseEntity> PhraseEntitys, HttpStatus status) {
-        this.PhraseEntitys = PhraseEntitys;
+    public PhraseEntityResponse(List<PhraseEntity> phraseEntityList, HttpStatus status) {
+        this.phraseEntityList = phraseEntityList;
         this.status = status;
     }
 
-    public List<PhraseEntity> getPhraseEntitys() {
-        return PhraseEntitys;
+    public List<PhraseEntity> getPhraseEntityList() {
+        return phraseEntityList;
     }
 
-    public void setPhraseEntitys(List<PhraseEntity> PhraseEntitys) {
-        this.PhraseEntitys = PhraseEntitys;
+    public void setPhraseEntityList(List<PhraseEntity> PhraseEntitys) {
+        this.phraseEntityList = PhraseEntitys;
     }
 
     public HttpStatus getStatus() {
@@ -37,13 +36,13 @@ public class PhraseEntitysResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PhraseEntitysResponse that = (PhraseEntitysResponse) o;
-        return Objects.equals(PhraseEntitys, that.PhraseEntitys) &&
+        PhraseEntityResponse that = (PhraseEntityResponse) o;
+        return Objects.equals(phraseEntityList, that.phraseEntityList) &&
                 status == that.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(PhraseEntitys, status);
+        return Objects.hash(phraseEntityList, status);
     }
 }

@@ -45,9 +45,13 @@ public class VoiceRecorderService {
         phraseRepository.deleteById(id);
     }
 
-//    public void updatePhrase(PhraseEntity Phrase) {
-////        phraseRepository.updatePhrase(Phrase.getId(), Phrase.getOriginal(), Phrase.getTranslation(), Phrase.getExampleRecording());
-//    }
+    public void updatePhrase(PhraseEntity phrase) {
+        phraseRepository.updatePhrase(phrase.getId(), phrase.getOriginal(), phrase.getTranslation(), phrase.getExampleRecording());
+    }
+
+    public PhraseEntity getPhraseById(Long id) {
+        return phraseRepository.getReferenceById(id);
+    }
 
 //    //todo implement some logic so that it's not just the same phrases over and over
 //    public PhrasesResponse getPhrases (int number) {
@@ -65,13 +69,19 @@ public class VoiceRecorderService {
         userRepository.save(user);
     }
 
+    public UserEntity getUserById(Long id) {
+        return userRepository.getReferenceById(id);
+    }
+
     public void deleteUser(UserEntity user) {
         userRepository.delete(user);
     }
 
-//    public void updateUser(UserEntity user) {
-////        userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getProject());
-//    }
+    public void deleteUserById(Long id) { userRepository.deleteById(id);}
+
+    public void updateUser(UserEntity user) {
+        userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getProject());
+    }
 
 
 }

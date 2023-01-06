@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 //        this.email = email;
 //        this.phone = phone;
 
-//    @Query("UPDATE users u SET u.first_name=$2, u.last_name=$3, u.email=$4, u.project=$5 where u.id= ?1")
-//    void updateUser(Long id, String firstName, String lastName, String email, String project);
+    @Query("UPDATE UserEntity as u SET u.firstName = ?2, u.lastName = ?3, u.email = ?4, u.project = ?5 where u.id = ?1")
+    void updateUser(Long id, String firstName, String lastName, String email, String project);
 
 }

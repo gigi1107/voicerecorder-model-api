@@ -23,7 +23,8 @@ to look inside the DB as it runs:
 
 psql -h 127.0.0.1 -p 5432 -U postgres
 
-
+Docker compose up will just bring up the database but IF the app fails, it wont giver err messages,
+ but then just run the app with MAVEN and this will give you a stack trace:
 
 You can run via maven
 export SPRING_PROFILES_ACTIVE=local

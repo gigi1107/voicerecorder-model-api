@@ -28,14 +28,6 @@ public class UserEntity implements Serializable {
     @Column(name = "email")
     private String email;
 
-    public String getProject() {
-        return project;
-    }
-
-    public void setProject(String project) {
-        this.project = project;
-    }
-
     @Column(name = "project")
     private String project;
 
@@ -69,6 +61,14 @@ public class UserEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
     }
 
     @Override

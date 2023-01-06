@@ -1,8 +1,0 @@
-com/voicerecorder/repository/PhraseRepository.class
-com/voicerecorder/entity/PhraseEntity.class
-com/voicerecorder/entity/UserEntity.class
-com/voicerecorder/App.class
-com/voicerecorder/service/VoiceRecorderService.class
-com/voicerecorder/repository/UserRepository.class
-com/voicerecorder/controller/Controller.class
-com/voicerecorder/Responses/PhraseEntitysResponse.class
