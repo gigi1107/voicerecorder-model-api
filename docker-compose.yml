@@ -33,6 +33,18 @@ services:
 #      - ./postgres-data:/var/lib/postgresql/data
       # copy the sql script to create tables
       - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+  s3:
+    container_name: s3
+    image: adobe/s3mock
+    ports:
+      - 9191:9191
+      - 9090:9090
+    environment:
+      - initialBuckets=makah-asr
+    networks:
+      - voicerecorder_network
+
+
 
 
 networks:

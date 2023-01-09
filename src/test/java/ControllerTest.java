@@ -1,5 +1,4 @@
-import com.voicerecorder.entity.PhraseEntity;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
+import com.voicerecorder.entity.Phrase;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
@@ -7,7 +6,6 @@ import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 
 
 class ControllerTest {
@@ -19,9 +17,9 @@ class ControllerTest {
 
         HttpUriRequest request = new HttpPost( "http://localhost:8080/v1/phrase" );
 
-        PhraseEntity phraseEntity = new PhraseEntity(1L, 5L, "originalPhrase", "engTranslation", "somePath");
+        Phrase phrase = new Phrase(1L, 5L, "originalPhrase", "engTranslation", "somePath");
 
-        String json = phraseEntity.toString();
+        String json = phrase.toString();
 
         StringEntity stringEntity = new StringEntity(json);
         request.setEntity(stringEntity);

@@ -152,6 +152,19 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.380</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.github.psambit9791/wavfile -->
+        <dependency>
+            <groupId>com.github.psambit9791</groupId>
+            <artifactId>wavfile</artifactId>
+            <version>0.1</version>
+        </dependency>
+
 
 
 

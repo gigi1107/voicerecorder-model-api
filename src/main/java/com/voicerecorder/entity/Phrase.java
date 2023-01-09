@@ -2,17 +2,16 @@ package com.voicerecorder.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "phrases")
 @Data
-public class PhraseEntity implements Serializable {
+public class Phrase implements Serializable {
 
     @Id
     private Long id;
@@ -29,7 +28,7 @@ public class PhraseEntity implements Serializable {
     @Column(name = "example_path")
     private String exampleRecording;
 
-    public PhraseEntity(Long id, Long phraseSetId, String original, String translation, String exampleRecording) {
+    public Phrase(Long id, Long phraseSetId, String original, String translation, String exampleRecording) {
         this.id = id;
         this.phraseSetId = phraseSetId;
         this.original = original;
@@ -37,10 +36,10 @@ public class PhraseEntity implements Serializable {
         this.exampleRecording = exampleRecording;
     }
 
-    public PhraseEntity() {
+    public Phrase() {
     }
 
-    public PhraseEntity(Long phraseSetId, String original, String translation, String exampleRecording) {
+    public Phrase(Long phraseSetId, String original, String translation, String exampleRecording) {
         this.phraseSetId = phraseSetId;
         this.original = original;
         this.translation = translation;
@@ -85,5 +84,33 @@ public class PhraseEntity implements Serializable {
 
     public void setPhraseSetId(Long phraseSetId) {
         this.phraseSetId = phraseSetId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Phrase)) return false;
+        Phrase that = (Phrase) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getPhraseSetId(), that.getPhraseSetId()) &&
+                Objects.equals(getOriginal(), that.getOriginal()) &&
+                Objects.equals(getTranslation(), that.getTranslation()) &&
+                Objects.equals(getExampleRecording(), that.getExampleRecording());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getPhraseSetId(), getOriginal(), getTranslation(), getExampleRecording());
+    }
+
+    @Override
+    public String toString() {
+        return "Phrase{" +
+                "id=" + id +
+                ", phraseSetId=" + phraseSetId +
+                ", original='" + original + '\'' +
+                ", translation='" + translation + '\'' +
+                ", exampleRecording='" + exampleRecording + '\'' +
+                '}';
     }
 }
