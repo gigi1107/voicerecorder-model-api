@@ -1,14 +1,8 @@
 package com.voicerecorder.service;
 
 
-import com.voicerecorder.entity.Phrase;
-import com.voicerecorder.entity.PhraseSet;
-import com.voicerecorder.entity.User;
-import com.voicerecorder.entity.UserPhrase;
-import com.voicerecorder.repository.PhraseRepository;
-import com.voicerecorder.repository.PhraseSetRepository;
-import com.voicerecorder.repository.UserPhraseRepository;
-import com.voicerecorder.repository.UserRepository;
+import com.voicerecorder.entity.*;
+import com.voicerecorder.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.HttpStatus;
 
@@ -27,6 +21,9 @@ public class VoiceRecorderService {
 
     @Autowired
     UserPhraseRepository userPhraseRepository;
+
+    @Autowired
+    UserPhraseCommentsRepository userPhraseCommentsRepository;
 
 
     public Phrase healthCheck() {
@@ -123,11 +120,29 @@ public class VoiceRecorderService {
         return userPhraseRepository.getReferenceById(id);
     }
 
-    public void deleteUserPhrase(UserPhrase phraseSet) {
-        userPhraseRepository.delete(phraseSet);
+    public void deleteUserPhrase(UserPhrase userPhrase) {
+        userPhraseRepository.delete(userPhrase);
     }
 
     public void deleteUserPhraseById(Long id) { userPhraseRepository.deleteById(id);}
 
 
+
+    //UserPhraseComments
+
+    public void addUserPhraseComments(UserPhraseComments userPhraseComments) {
+        userPhraseCommentsRepository.save(userPhraseComments);
     }
+
+    public UserPhraseComments getUserPhraseCommentsById(Long id) {
+        return userPhraseCommentsRepository.getReferenceById(id);
+    }
+
+    public void deleteUserPhraseComments(UserPhraseComments userPhraseComments) {
+        userPhraseCommentsRepository.delete(userPhraseComments);
+    }
+
+    public void deleteUserPhraseCommentsById(Long id) { userPhraseCommentsRepository.deleteById(id);}
+
+
+}

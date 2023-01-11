@@ -18,7 +18,7 @@ import java.io.File;
 public class S3Controller {
 
     @Autowired
-    S3Service s3Service;
+    private S3Service s3Service;
 
     @PostMapping("/v1/userPhrase/s3")
     @ResponseBody
