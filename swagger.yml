@@ -20,8 +20,8 @@ tags:
     description: Operations with UserPhrase objects.
   - name: phraseSet
     description: Operations with PhraseSet objects
-  - name: userPhraseComments
-    description: Operations with UserPhraseComment
+  - name: userPhraseComment
+    description: Operations with UserPhraseComment objects
 paths:
   /phrase:
     put:
@@ -37,6 +37,13 @@ paths:
               $ref: '#/components/schemas/Phrase'
         required: true
       responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phrase'
+
         "400":
           description: Invalid ID supplied
           content: {}
@@ -47,7 +54,7 @@ paths:
           description: Validation exception
           content: {}
       x-codegen-request-body-name: phrase
-      x-openapi-router-controller: swagger_server.controllers.phrase_controller
+      x-openapi-router-controller: swagger_server.controllers.PhraseController
     post:
       tags:
         - phrase
@@ -61,11 +68,14 @@ paths:
               $ref: '#/components/schemas/Phrase'
         required: true
       responses:
+        "200":
+          description: Successful operation
+          content: {}
         "405":
           description: Invalid input
           content: {}
       x-codegen-request-body-name: phrase
-      x-openapi-router-controller: swagger_server.controllers.phrase_controller
+      x-openapi-router-controller: swagger_server.controllers.PhraseController
   /phrase/{phraseId}:
     delete:
       tags:
@@ -83,6 +93,9 @@ paths:
             type: integer
             format: int64
       responses:
+        "200":
+          description: Successful operation
+          content: {}
         "400":
           description: Invalid ID supplied
           content: {}
@@ -93,11 +106,11 @@ paths:
           description: Validation exception
           content: {}
       x-codegen-request-body-name: phrase
-      x-openapi-router-controller: swagger_server.controllers.phrase_controller
+      x-openapi-router-controller: swagger_server.controllers.PhraseController
     post:
       tags:
         - phrase
-      summary: Gets a phrase to the Database
+      summary: Gets a phrase with a given phraseId from the Database.
       operationId: getPhraseById
       parameters:
         - name: phraseId
@@ -110,6 +123,12 @@ paths:
             type: integer
             format: int64
       responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phrase'
         "405":
           description: Invalid input
           content: {}
@@ -117,7 +136,7 @@ paths:
           description: Not found
           content: {}
       x-codegen-request-body-name: phrase
-      x-openapi-router-controller: swagger_server.controllers.phrase_controller
+      x-openapi-router-controller: swagger_server.controllers.PhraseController
 
 
   /user:
@@ -135,13 +154,16 @@ paths:
         required: true
       responses:
         "200":
-          description: successful operation
+          description: Successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        "404":
+          description: User not found
+          content: {}
       x-codegen-request-body-name: user
-      x-openapi-router-controller: swagger_server.controllers.user_controller
+      x-openapi-router-controller: swagger_server.controllers.UserController
     post:
       tags:
         - user
@@ -156,13 +178,16 @@ paths:
         required: true
       responses:
         "200":
-          description: successful operation
+          description: Successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        "405":
+          description: Invalid input
+          content: {}
       x-codegen-request-body-name: user
-      x-openapi-router-controller: swagger_server.controllers.user_controller
+      x-openapi-router-controller: swagger_server.controllers.UserController
   /user/{userId}:
     delete:
       tags:
@@ -180,6 +205,9 @@ paths:
             type: integer
             format: int64
       responses:
+        "200":
+          description: Successful operation
+          content: {}
         "400":
           description: Invalid ID supplied
           content: {}
@@ -190,42 +218,38 @@ paths:
           description: Validation exception
           content: {}
       x-codegen-request-body-name: userId
-      x-openapi-router-controller: swagger_server.controllers.user_controller
-    post:
-  /user/retrieve:
+      x-openapi-router-controller: swagger_server.controllers.UserController
+
     post:
       tags:
         - user
-        summary: Get user
-        operationId: get_user
-        requestBody:
-          description: User object
+      summary: Gets user with given userId
+      operationId: getUser
+      parameters:
+        - name: userId
+          in: path
+          description: The userId of the user you want to delete from the Database
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-          required: true
-        responses:
-          "200":
-            description: successful operation
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/User'
-          "400":
-            description: Invalid username supplied
-            content: {}
-          "404":
-            description: User not found
-            content: {}
-        x-codegen-request-body-name: user
-        x-openapi-router-controller: swagger_server.controllers.user_controller
+      x-codegen-request-body-name: user
+      x-openapi-router-controller: swagger_server.controllers.UserController
 
 
 
 
 
-### USER PHRASE
+  ### USER PHRASE
   /userPhrase:
     put:
       tags:
@@ -241,9 +265,23 @@ paths:
         required: true
       responses:
         "200":
-          description: Successful Operation
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPhrase'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: UserPhrase not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+
       x-codegen-request-body-name: userPhrase
-      x-openapi-router-controller: swagger_server.controllers.user_phrase_controller
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseController
     post:
       tags:
         - userPhrase
@@ -259,8 +297,15 @@ paths:
       responses:
         "200":
           description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPhrase'
+        "405":
+          description: Validation exception
+          content: {}
       x-codegen-request-body-name: userPhrase
-      x-openapi-router-controller: swagger_server.controllers.user_phrase_controller
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseController
   /userPhrase/{userPhraseId}:
     post:
       tags:
@@ -275,14 +320,26 @@ paths:
           style: simple
           explode: false
           schema:
-            type: long
+            type: integer
+            format: int64
       responses:
         "200":
           description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPhrase'
+        "400":
+          description: Invalid ID supplied
+          content: {}
         "404":
-          description: UserPhrase Id not found.
+          description: UserPhrase not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
       x-codegen-request-body-name: userPhrase
-      x-openapi-router-controller: swagger_server.controllers.user_phrase_controller
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseController
     delete:
       tags:
         - userPhrase
@@ -296,14 +353,23 @@ paths:
           style: simple
           explode: false
           schema:
-            type: long
+            type: integer
+            format: int64
       responses:
         "200":
           description: Successful Operation
+          content: {}
+        "400":
+          description: Invalid ID supplied
+          content: {}
         "404":
-          description: UserPhrase Id not found.
+          description: UserPhrase not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
       x-codegen-request-body-name: userPhrase
-      x-openapi-router-controller: swagger_server.controllers.user_phrase_controller
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseController
 
   /userPhrase/{userPhrase}:
     delete:
@@ -312,33 +378,51 @@ paths:
       summary: Delete a userPhrase from the db
       operationId: deleteUserPhrase
       parameters:
-        - name: userPhraseId
+        - name: userPhrase
           in: path
           description: The userPhrase you want to delete
           required: true
           style: simple
           explode: false
           schema:
-            type: long
+            $ref: '#/components/schemas/UserPhrase'
       responses:
         "200":
           description: Successful Operation
+          content: {}
+        "400":
+          description: Invalid ID supplied
+          content: {}
         "404":
-          description: UserPhrase Id not found.
+          description: UserPhrase not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
       x-codegen-request-body-name: userPhrase
-      x-openapi-router-controller: swagger_server.controllers.user_phrase_controller
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseController
 
 
-## Phrase Set
+  ## Phrase Set
 
-  /phraseSet/{targetPhraseSet}:
+  /phraseSet/{targetPhraseSetId}:
     post:
       tags:
         - phrase
         - phraseSet
-      summary: Retrieves a given number of phrases from the Database
+      summary: Retrieves a number of phrases from a phrase set.
       description: Number should be greater than 0.
       operationId: getPhrasesFromPhraseSet
+      parameters:
+        - name: targetPhraseSetId
+          in: path
+          description: The phraseSetId of the phrase set you want to get your phrases from
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
       requestBody:
         description: Number of phrases to retrieve from the DB
         content:
@@ -358,9 +442,15 @@ paths:
                   $ref: '#/components/schemas/Phrase'
                 x-content-type: application/json
         "400":
-          description: Invalid numberPhrases value
+          description: Invalid ID supplied
           content: {}
-      x-openapi-router-controller: swagger_server.controllers.phrase_controller
+        "404":
+          description: Not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+      x-openapi-router-controller: swagger_server.controllers.PhraseSetController
   /phraseSet:
     put:
       tags:
@@ -375,6 +465,12 @@ paths:
               $ref: '#/components/schemas/PhraseSet'
         required: true
       responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhraseSet'
         "400":
           description: Invalid ID supplied
           content: {}
@@ -385,25 +481,225 @@ paths:
           description: Validation exception
           content: {}
       x-codegen-request-body-name: phraseSet
-      x-openapi-router-controller: swagger_server.controllers.phrase_controller
-      post:
-        tags:
-          - phraseSet
-        summary: Add a new phraseSet to the Database
-        operationId: addPhraseSet
-        requestBody:
-          description: PhraseSet object that needs to be added to the Database
+      x-openapi-router-controller: swagger_server.controllers.PhraseSetController
+    post:
+      tags:
+        - phraseSet
+      summary: Add a new phraseSet to the Database
+      operationId: addPhraseSet
+      requestBody:
+        description: PhraseSet object that needs to be added to the Database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhraseSet'
+        required: true
+      responses:
+        "200":
+          description: Successful Operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PhraseSet'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: PhraseSet not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: phraseSet
+      x-openapi-router-controller: swagger_server.controllers.PhraseSetController
+  /phraseSet/{phraseSetId}:
+    delete:
+      tags:
+        - phraseSet
+      summary: Delete a phraseSet from the db
+      operationId: deletePhraseSet
+      parameters:
+        - name: phraseSetId
+          in: path
+          description: The phraseSet you want to delete
           required: true
-        responses:
-          "405":
-            description: Invalid input
-            content: {}
-        x-codegen-request-body-name: phraseSet
-        x-openapi-router-controller: swagger_server.controllers.phrase_controller
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Successful Operation
+          content: {}
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: PhraseSet not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: phraseSet
+      x-openapi-router-controller: swagger_server.controllers.PhraseSetController
+
+    post:
+      tags:
+        - phraseSet
+      summary: Get a phraseSet by Id
+      operationId: getPhraseSet
+      parameters:
+        - name: phraseSetId
+          in: path
+          description: The phraseSet Id you want to get
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhraseSet'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: PhraseSet not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: phraseSet
+      x-openapi-router-controller: swagger_server.controllers.PhraseSetController
+
+  /userPhraseComment:
+    put:
+      tags:
+        - userPhraseComment
+      summary: Update an existing userPhraseComment
+      operationId: updateUserPhraseComment
+      requestBody:
+        description: UserPhraseComment object that needs to be added to the Database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPhraseComment'
+        required: true
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPhraseComment'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: UserPhraseComment not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: UserPhraseComment
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseController
+    post:
+      tags:
+        - userPhraseComment
+      summary: Add a new UserPhraseComment to the Database
+      operationId: addUserPhraseComment
+      requestBody:
+        description: UserPhraseComment object that needs to be added to the Database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPhraseComment'
+        required: true
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPhraseComment'
+        "405":
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: UserPhraseComment
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseController
+
+  /userPhraseComment/{userPhraseCommentId}:
+    delete:
+      tags:
+        - userPhraseComment
+      summary: Delete a UserPhraseComment from the db
+      operationId: deleteUserPhraseComment
+      parameters:
+        - name: userPhraseCommentId
+          in: path
+          description: The UserPhraseComment you want to delete
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Successful Operation
+          content: {}
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: UserPhraseComment not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: UserPhraseComment
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseController
+
+    post:
+      tags:
+        - userPhraseComment
+      summary: Get a UserPhraseComment by Id
+      operationId: getUserPhraseComment
+      parameters:
+        - name: userPhraseCommentId
+          in: path
+          description: The Id of UserPhraseComment you want to get
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPhraseComment'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: UserPhraseComment not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: UserPhraseComment
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseController
+
 
 components:
   schemas:
@@ -411,9 +707,9 @@ components:
       type: object
       properties:
         id:
-          type: long
+          type: integer
         phraseSetId:
-          type: long
+          type: integer
         original:
           type: string
         translation:
@@ -426,7 +722,7 @@ components:
       type: object
       properties:
         id:
-          type: long
+          type: integer
         firstName:
           type: string
         lastName:
@@ -441,13 +737,13 @@ components:
       type: object
       properties:
         id:
-          type: long
+          type: integer
         phraseId:
-          type: long
+          type: integer
         userId:
-          type: long
+          type: integer
         dateTime:
-          type: timestamp
+          type: string
         filepath:
           type: string
         ## mp4, mp3, ogg vorbis, wav
@@ -459,13 +755,13 @@ components:
       type: object
       properties:
         id:
-          type: long
+          type: integer
         phraseSetName:
           type: string
         startDate:
-          type: timestamp
+          type: string
         endDate:
-          type: timestamp
+          type: string
       xml:
         name: PhraseSet
 
@@ -473,15 +769,15 @@ components:
       type: object
       properties:
         id:
-          type: long
+          type: integer
         phraseId:
-          type: long
+          type: integer
         comment:
           type: string
         dateTime:
-          type: timestamp
+          type: string
         userId:
-          type: long
+          type: integer
       xml:
         name: UserPhraseComment
 
