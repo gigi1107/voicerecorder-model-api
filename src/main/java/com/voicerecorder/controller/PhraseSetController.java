@@ -17,8 +17,7 @@ public class PhraseSetController {
 
 
     @PostMapping("/v1/phraseSet")
-    @ResponseBody
-    public ResponseEntity<Void> addphraseSetSet(@RequestBody PhraseSet phraseSet) {
+    public ResponseEntity<PhraseSet> addPhraseSet(@RequestBody PhraseSet phraseSet) {
         try {
             voiceRecorderService.addPhraseSet(phraseSet);
 
@@ -45,14 +44,15 @@ public class PhraseSetController {
     }
 
     @PutMapping("/v1/phraseSet")
-    public ResponseEntity<Void> updatephraseSet(@RequestBody PhraseSet phraseSet) {
+    public ResponseEntity<PhraseSet> updatephraseSet(@RequestBody PhraseSet phraseSet) {
+        PhraseSet result;
         try {
-            voiceRecorderService.updatePhraseSet(phraseSet);
+            result = voiceRecorderService.updatePhraseSet(phraseSet);
 
         } catch (Exception e ) {
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/v1/phraseSet/{phraseSetId}")

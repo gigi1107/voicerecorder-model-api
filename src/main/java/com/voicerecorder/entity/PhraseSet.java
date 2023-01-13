@@ -8,7 +8,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Objects;
 
 
@@ -26,12 +25,12 @@ public class PhraseSet implements Serializable {
     private String phraseSetName;
 
     @Column(name = "start_date")
-    private Timestamp startDate;
+    private String startDate;
 
     @Column(name = "end_date")
-    private Timestamp endDate;
+    private String endDate;
 
-    public PhraseSet(Long id, String phraseSetName, Timestamp startDate, Timestamp endDate) {
+    public PhraseSet(Long id, String phraseSetName, String startDate, String endDate) {
         this.id = id;
         this.phraseSetName = phraseSetName;
         this.startDate = startDate;
@@ -58,19 +57,19 @@ public class PhraseSet implements Serializable {
         this.phraseSetName = phraseSetName;
     }
 
-    public Timestamp getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Timestamp getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Timestamp endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

@@ -8,7 +8,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -25,12 +24,12 @@ public class UserPhraseComment implements Serializable {
     String comment;
 
     @Column(name = "date_time")
-    Timestamp dateTime;
+    String dateTime;
 
     @Column(name = "user_id")
     Long userId;
 
-    public UserPhraseComment(Long id, Long phraseId, String comment, Timestamp dateTime, Long userId) {
+    public UserPhraseComment(Long id, Long phraseId, String comment, String dateTime, Long userId) {
         this.id = id;
         this.phraseId = phraseId;
         this.comment = comment;
@@ -65,11 +64,11 @@ public class UserPhraseComment implements Serializable {
         this.comment = comment;
     }
 
-    public Timestamp getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Timestamp dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 

@@ -25,5 +25,5 @@ public interface UserPhraseRepository extends JpaRepository<UserPhrase, Long> {
 //    private String filePath;
 
     @Query("UPDATE UserPhrase u SET u.phraseId= ?2, u.userId= ?3, u.dateTime= ?4, u.filePath= ?5 where u.id= ?1")
-    void updateUserPhrase(Long id, Long phraseId, Long userId, Timestamp dateTime, String filePath);
+    UserPhrase updateUserPhrase(Long id, Long phraseId, Long userId, String dateTime, String filePath);
 }

@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-import java.sql.Timestamp;
 import java.util.Objects;
 
 
@@ -25,12 +24,12 @@ public class UserPhrase {
     private Long userId;
 
     @Column(name = "date_time")
-    private Timestamp dateTime;
+    private String dateTime;
 
     @Column(name = "file_path")
     private String filePath;
 
-    public UserPhrase(Long id, Long phraseId, Long userId, Timestamp dateTime, String filePath) {
+    public UserPhrase(Long id, Long phraseId, Long userId, String dateTime, String filePath) {
         this.id = id;
         this.phraseId = phraseId;
         this.userId = userId;
@@ -65,11 +64,11 @@ public class UserPhrase {
         this.userId = userId;
     }
 
-    public Timestamp getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Timestamp dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 

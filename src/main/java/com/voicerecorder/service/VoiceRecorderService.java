@@ -4,7 +4,6 @@ package com.voicerecorder.service;
 import com.voicerecorder.entity.*;
 import com.voicerecorder.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
 
 
 @org.springframework.stereotype.Service
@@ -45,16 +44,16 @@ public class VoiceRecorderService {
 
     //phrase stuff
 
-    public void addPhrase(Phrase phrase) {
-        phraseRepository.save(phrase);
+    public Phrase addPhrase(Phrase phrase) {
+        return phraseRepository.save(phrase);
     }
 
     public void deletePhrase(Long id) {
         phraseRepository.deleteById(id);
     }
 
-    public void updatePhrase(Phrase phrase) {
-        phraseRepository.updatePhrase(phrase.getId(), phrase.getOriginal(), phrase.getTranslation(), phrase.getExampleRecordingPath());
+    public Phrase updatePhrase(Phrase phrase) {
+        return phraseRepository.updatePhrase(phrase.getId(), phrase.getOriginal(), phrase.getTranslation(), phrase.getExampleRecordingPath());
     }
 
     public Phrase getPhraseById(Long id) {
@@ -90,8 +89,8 @@ public class VoiceRecorderService {
 
     //phrase set
 
-    public void addPhraseSet(PhraseSet phraseSet) {
-        phraseSetRepository.save(phraseSet);
+    public PhraseSet addPhraseSet(PhraseSet phraseSet) {
+        return phraseSetRepository.save(phraseSet);
     }
 
     public PhraseSet getPhraseSetById(Long id) {
@@ -106,17 +105,17 @@ public class VoiceRecorderService {
         phraseSetRepository.deleteById(id);
     }
 
-    public void updatePhraseSet(PhraseSet phraseSet) {
-        phraseSetRepository.updatePhraseSet(phraseSet.getId(), phraseSet.getPhraseSetName(), phraseSet.getStartDate(), phraseSet.getEndDate());
+    public PhraseSet updatePhraseSet(PhraseSet phraseSet) {
+        return phraseSetRepository.updatePhraseSet(phraseSet.getId(), phraseSet.getPhraseSetName(), phraseSet.getStartDate(), phraseSet.getEndDate());
     }
 
     //UserPhrase
-    public void addUserPhrase(UserPhrase userPhrase) {
-        userPhraseRepository.save(userPhrase);
+    public UserPhrase addUserPhrase(UserPhrase userPhrase) {
+        return userPhraseRepository.save(userPhrase);
     }
 
-    public void updateUserPhrase(UserPhrase userPhrase) {
-        userPhraseRepository.updateUserPhrase(userPhrase.getId(), userPhrase.getPhraseId(),
+    public UserPhrase updateUserPhrase(UserPhrase userPhrase) {
+        return userPhraseRepository.updateUserPhrase(userPhrase.getId(), userPhrase.getPhraseId(),
                 userPhrase.getUserId(), userPhrase.getDateTime(), userPhrase.getFilePath());
     }
 
@@ -135,12 +134,21 @@ public class VoiceRecorderService {
 
     //UserPhraseComment
 
-    public void addUserPhraseComments(UserPhraseComment userPhraseComment) {
-        userPhraseCommentsRepository.save(userPhraseComment);
+    public UserPhraseComment addUserPhraseComments(UserPhraseComment userPhraseComment) {
+        return userPhraseCommentsRepository.save(userPhraseComment);
     }
 
     public UserPhraseComment getUserPhraseCommentsById(Long id) {
         return userPhraseCommentsRepository.getReferenceById(id);
+    }
+
+    public UserPhraseComment updateUserPhraseComment(UserPhraseComment userPhraseComment) {
+        return userPhraseCommentsRepository.updateUserPhraseComment(
+                userPhraseComment.getId(),
+                userPhraseComment.getPhraseId(),
+                userPhraseComment.getComment(),
+                userPhraseComment.getDateTime(),
+                userPhraseComment.getUserId());
     }
 
     public void deleteUserPhraseComments(UserPhraseComment userPhraseComment) {

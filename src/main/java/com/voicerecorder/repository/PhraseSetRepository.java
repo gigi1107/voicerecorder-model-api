@@ -22,5 +22,5 @@ public interface PhraseSetRepository extends JpaRepository<PhraseSet, Long> {
 //    private Timestamp endDate;
 
     @Query("UPDATE PhraseSet p SET p.phraseSetName = ?2, p.startDate = ?3, p.endDate = ?4 where p.id= ?1")
-    void updatePhraseSet(Long id, String phraseSetName, Timestamp startDate, Timestamp endDate);
+    PhraseSet updatePhraseSet(Long id, String phraseSetName, String startDate, String endDate);
 }

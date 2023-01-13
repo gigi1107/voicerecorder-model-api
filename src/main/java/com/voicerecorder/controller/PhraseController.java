@@ -32,14 +32,15 @@ public class PhraseController {
 
     @PostMapping("/v1/phrase")
     @ResponseBody
-    public ResponseEntity<Void> addPhrase(@RequestBody Phrase phrase) {
+    public ResponseEntity<Phrase> addPhrase(@RequestBody Phrase phrase) {
+        Phrase response;
         try {
-            voiceRecorderService.addPhrase(phrase);
+            response = voiceRecorderService.addPhrase(phrase);
 
         } catch (Exception e ) {
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(response);
 
     }
 
@@ -59,14 +60,15 @@ public class PhraseController {
     }
 
     @PutMapping("/v1/phrase")
-    public ResponseEntity<Void> updatePhrase(@RequestBody Phrase phrase) {
+    public ResponseEntity<Phrase> updatePhrase(@RequestBody Phrase phrase) {
+        Phrase response;
         try {
-            voiceRecorderService.updatePhrase(phrase);
+            response = voiceRecorderService.updatePhrase(phrase);
 
         } catch (Exception e ) {
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/v1/phrase/{phraseId}")
