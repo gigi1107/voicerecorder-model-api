@@ -26,24 +26,24 @@ public class Phrase implements Serializable {
     private String translation;
 
     @Column(name = "example_path")
-    private String exampleRecording;
+    private String exampleRecordingPath;
 
-    public Phrase(Long id, Long phraseSetId, String original, String translation, String exampleRecording) {
+    public Phrase(Long id, Long phraseSetId, String original, String translation, String exampleRecordingPath) {
         this.id = id;
         this.phraseSetId = phraseSetId;
         this.original = original;
         this.translation = translation;
-        this.exampleRecording = exampleRecording;
+        this.exampleRecordingPath = exampleRecordingPath;
     }
 
     public Phrase() {
     }
 
-    public Phrase(Long phraseSetId, String original, String translation, String exampleRecording) {
+    public Phrase(Long phraseSetId, String original, String translation, String exampleRecordingPath) {
         this.phraseSetId = phraseSetId;
         this.original = original;
         this.translation = translation;
-        this.exampleRecording = exampleRecording;
+        this.exampleRecordingPath = exampleRecordingPath;
     }
 
     public Long getId() {
@@ -70,12 +70,12 @@ public class Phrase implements Serializable {
         this.translation = translation;
     }
 
-    public String getExampleRecording() {
-        return exampleRecording;
+    public String getExampleRecordingPath() {
+        return exampleRecordingPath;
     }
 
-    public void setExampleRecording(String exampleRecording) {
-        this.exampleRecording = exampleRecording;
+    public void setExampleRecordingPath(String exampleRecordingPath) {
+        this.exampleRecordingPath = exampleRecordingPath;
     }
 
     public Long getPhraseSetId() {
@@ -95,12 +95,12 @@ public class Phrase implements Serializable {
                 Objects.equals(getPhraseSetId(), that.getPhraseSetId()) &&
                 Objects.equals(getOriginal(), that.getOriginal()) &&
                 Objects.equals(getTranslation(), that.getTranslation()) &&
-                Objects.equals(getExampleRecording(), that.getExampleRecording());
+                Objects.equals(getExampleRecordingPath(), that.getExampleRecordingPath());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPhraseSetId(), getOriginal(), getTranslation(), getExampleRecording());
+        return Objects.hash(getId(), getPhraseSetId(), getOriginal(), getTranslation(), getExampleRecordingPath());
     }
 
     @Override
@@ -110,7 +110,7 @@ public class Phrase implements Serializable {
                 ", phraseSetId=" + phraseSetId +
                 ", original='" + original + '\'' +
                 ", translation='" + translation + '\'' +
-                ", exampleRecording='" + exampleRecording + '\'' +
+                ", exampleRecordingPath='" + exampleRecordingPath + '\'' +
                 '}';
     }
 }

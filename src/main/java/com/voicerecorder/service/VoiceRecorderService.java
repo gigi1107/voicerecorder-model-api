@@ -54,22 +54,17 @@ public class VoiceRecorderService {
     }
 
     public void updatePhrase(Phrase phrase) {
-        phraseRepository.updatePhrase(phrase.getId(), phrase.getOriginal(), phrase.getTranslation(), phrase.getExampleRecording());
+        phraseRepository.updatePhrase(phrase.getId(), phrase.getOriginal(), phrase.getTranslation(), phrase.getExampleRecordingPath());
     }
 
     public Phrase getPhraseById(Long id) {
         return phraseRepository.getReferenceById(id);
     }
 
-//    //todo implement some logic so that it's not just the same phrases over and over
-//    public PhrasesResponse getPhrases (int number) {
-//        List<Phrase> phraseEntities =  phraseRepository.getNumberOfPhrases(number);
-//        List<Phrase> phrases = new ArrayList<>();
-//        phrases.addAll(phraseEntities);
+//    public List<Phrase> getPhrasesFromPhraseSet(int number, Long targetPhraseSetId) {
 //
-//        return new PhrasesResponse(phrases, HttpStatus.OK);
 //    }
-//
+
 
     //user stuff
 
@@ -85,7 +80,9 @@ public class VoiceRecorderService {
         userRepository.delete(user);
     }
 
-    public void deleteUserById(Long id) { userRepository.deleteById(id);}
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
 
     public void updateUser(User user) {
         userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getProject());
@@ -105,7 +102,9 @@ public class VoiceRecorderService {
         phraseSetRepository.delete(phraseSet);
     }
 
-    public void deletePhraseSetById(Long id) { phraseSetRepository.deleteById(id);}
+    public void deletePhraseSetById(Long id) {
+        phraseSetRepository.deleteById(id);
+    }
 
     public void updatePhraseSet(PhraseSet phraseSet) {
         phraseSetRepository.updatePhraseSet(phraseSet.getId(), phraseSet.getPhraseSetName(), phraseSet.getStartDate(), phraseSet.getEndDate());
@@ -116,6 +115,11 @@ public class VoiceRecorderService {
         userPhraseRepository.save(userPhrase);
     }
 
+    public void updateUserPhrase(UserPhrase userPhrase) {
+        userPhraseRepository.updateUserPhrase(userPhrase.getId(), userPhrase.getPhraseId(),
+                userPhrase.getUserId(), userPhrase.getDateTime(), userPhrase.getFilePath());
+    }
+
     public UserPhrase getUserPhraseById(Long id) {
         return userPhraseRepository.getReferenceById(id);
     }
@@ -124,25 +128,28 @@ public class VoiceRecorderService {
         userPhraseRepository.delete(userPhrase);
     }
 
-    public void deleteUserPhraseById(Long id) { userPhraseRepository.deleteById(id);}
-
-
-
-    //UserPhraseComments
-
-    public void addUserPhraseComments(UserPhraseComments userPhraseComments) {
-        userPhraseCommentsRepository.save(userPhraseComments);
+    public void deleteUserPhraseById(Long id) {
+        userPhraseRepository.deleteById(id);
     }
 
-    public UserPhraseComments getUserPhraseCommentsById(Long id) {
+
+    //UserPhraseComment
+
+    public void addUserPhraseComments(UserPhraseComment userPhraseComment) {
+        userPhraseCommentsRepository.save(userPhraseComment);
+    }
+
+    public UserPhraseComment getUserPhraseCommentsById(Long id) {
         return userPhraseCommentsRepository.getReferenceById(id);
     }
 
-    public void deleteUserPhraseComments(UserPhraseComments userPhraseComments) {
-        userPhraseCommentsRepository.delete(userPhraseComments);
+    public void deleteUserPhraseComments(UserPhraseComment userPhraseComment) {
+        userPhraseCommentsRepository.delete(userPhraseComment);
     }
 
-    public void deleteUserPhraseCommentsById(Long id) { userPhraseCommentsRepository.deleteById(id);}
+    public void deleteUserPhraseCommentsById(Long id) {
+        userPhraseCommentsRepository.deleteById(id);
+    }
 
 
 }

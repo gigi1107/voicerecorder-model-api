@@ -11,6 +11,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+
+// Shouldn't phrase sets correspond somehow with phrases?
+
 @Entity
 @Table(name = "phrase_sets")
 @Data

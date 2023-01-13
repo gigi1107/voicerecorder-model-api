@@ -21,14 +21,27 @@ public class UserPhraseController {
 
     @PostMapping("/v1/userPhrase")
     @ResponseBody
-    public ResponseEntity<String> addUserPhrase(@RequestBody UserPhrase userPhrase) {
+    public ResponseEntity<Void> addUserPhrase(@RequestBody UserPhrase userPhrase) {
         try {
             voiceRecorderService.addUserPhrase(userPhrase);
 
         } catch (Exception e ) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok().body("Success");
+        return ResponseEntity.ok().build();
+
+    }
+
+    @PutMapping("/v1/userPhrase")
+    @ResponseBody
+    public ResponseEntity<Void> updateUserPhrase(@RequestBody UserPhrase userPhrase) {
+        try {
+            voiceRecorderService.updateUserPhrase(userPhrase);
+
+        } catch (Exception e ) {
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().build();
 
     }
 
@@ -60,7 +73,7 @@ public class UserPhraseController {
 
     }
 
-    @DeleteMapping("/v1/userPhrae")
+    @DeleteMapping("/v1/userPhrase")
     public ResponseEntity<Void> deleteUserPhrase(@RequestBody UserPhrase userPhrase) {
         try {
             voiceRecorderService.deleteUserPhrase(userPhrase);

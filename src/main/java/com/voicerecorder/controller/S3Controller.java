@@ -3,6 +3,7 @@ package com.voicerecorder.controller;
 
 import com.voicerecorder.entity.UserPhrase;
 import com.voicerecorder.service.S3Service;
+import com.voicerecorder.service.VoiceRecorderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,16 +21,21 @@ public class S3Controller {
     @Autowired
     private S3Service s3Service;
 
+    @Autowired
+    private VoiceRecorderService voiceRecorderService;
+
+    // POSTCONDITION: Client must also call updateUserPhrase with the proper File path from the return value.
     @PostMapping("/v1/userPhrase/s3")
     @ResponseBody
     public ResponseEntity<UserPhrase> saveAudioFileToS3(@RequestBody UserPhrase userPhrase, @RequestBody File audioFile) {
+        UserPhrase result;
         try {
-            s3Service.saveAudioFileToS3(userPhrase, audioFile);
+            result = s3Service.saveAudioFileToS3(userPhrase, audioFile);
 
         } catch (Exception e ) {
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(result);
 
     }
 

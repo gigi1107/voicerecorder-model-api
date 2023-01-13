@@ -18,6 +18,7 @@ public class S3Service {
     private static AmazonS3 client = AmazonS3ClientBuilder.defaultClient();
 
     // # key = 'recorded/'+recording_series+'/'+phrase_id + '_' + user_id+ "_"+ datetime_now.strftime("%Y-%m-%d_%H:%M:%S")+".txt"
+
     public UserPhrase saveAudioFileToS3(UserPhrase userPhrase, File audioFile)
             throws SdkClientException, IOException {
         String key = "recorded/" + userPhrase.getPhraseId() + "_" + userPhrase.getUserId() + "_" +

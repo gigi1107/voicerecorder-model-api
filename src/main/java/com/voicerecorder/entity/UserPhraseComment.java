@@ -14,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "user_phrase_comments")
 @Data
-public class UserPhraseComments implements Serializable {
+public class UserPhraseComment implements Serializable {
     @Id
     private Long id;
 
@@ -30,7 +30,7 @@ public class UserPhraseComments implements Serializable {
     @Column(name = "user_id")
     Long userId;
 
-    public UserPhraseComments(Long id, Long phraseId, String comment, Timestamp dateTime, Long userId) {
+    public UserPhraseComment(Long id, Long phraseId, String comment, Timestamp dateTime, Long userId) {
         this.id = id;
         this.phraseId = phraseId;
         this.comment = comment;
@@ -38,7 +38,7 @@ public class UserPhraseComments implements Serializable {
         this.userId = userId;
     }
 
-    public UserPhraseComments() {
+    public UserPhraseComment() {
     }
 
     public Long getId() {
@@ -84,8 +84,8 @@ public class UserPhraseComments implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserPhraseComments)) return false;
-        UserPhraseComments that = (UserPhraseComments) o;
+        if (!(o instanceof UserPhraseComment)) return false;
+        UserPhraseComment that = (UserPhraseComment) o;
         return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getPhraseId(), that.getPhraseId()) &&
                 Objects.equals(getComment(), that.getComment()) &&
@@ -100,7 +100,7 @@ public class UserPhraseComments implements Serializable {
 
     @Override
     public String toString() {
-        return "UserPhraseComments{" +
+        return "UserPhraseComment{" +
                 "id=" + id +
                 ", phraseId=" + phraseId +
                 ", comment='" + comment + '\'' +

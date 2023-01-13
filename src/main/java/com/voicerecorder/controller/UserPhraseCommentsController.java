@@ -1,6 +1,6 @@
 package com.voicerecorder.controller;
 
-import com.voicerecorder.entity.UserPhraseComments;
+import com.voicerecorder.entity.UserPhraseComment;
 import com.voicerecorder.service.VoiceRecorderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +18,11 @@ public class UserPhraseCommentsController {
     public JdbcTemplate template;
 
 
-    @PostMapping("/v1/userPhraseComments")
+    @PostMapping("/v1/userPhraseComment")
     @ResponseBody
-    public ResponseEntity<String> adduserPhraseComments(@RequestBody UserPhraseComments userPhraseComments) {
+    public ResponseEntity<String> adduserPhraseComments(@RequestBody UserPhraseComment userPhraseComment) {
         try {
-            voiceRecorderService.addUserPhraseComments(userPhraseComments);
+            voiceRecorderService.addUserPhraseComments(userPhraseComment);
 
         } catch (Exception e ) {
             return ResponseEntity.internalServerError().body(e.getMessage());
@@ -32,17 +32,17 @@ public class UserPhraseCommentsController {
     }
 
     @PostMapping("/v1/userPhraseComments/{userPhraseCommentsId}")
-    public ResponseEntity<UserPhraseComments> getuserPhraseCommentsById(@PathVariable Long userPhraseCommentsId) {
-        UserPhraseComments userPhraseComments;
+    public ResponseEntity<UserPhraseComment> getuserPhraseCommentsById(@PathVariable Long userPhraseCommentsId) {
+        UserPhraseComment userPhraseComment;
 
         try {
-            userPhraseComments = voiceRecorderService.getUserPhraseCommentsById(userPhraseCommentsId);
+            userPhraseComment = voiceRecorderService.getUserPhraseCommentsById(userPhraseCommentsId);
         }
         catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
 
-        return ResponseEntity.ok().body(userPhraseComments);
+        return ResponseEntity.ok().body(userPhraseComment);
 
     }
 
@@ -59,10 +59,10 @@ public class UserPhraseCommentsController {
 
     }
 
-    @DeleteMapping("/v1/userPhraseComments")
-    public ResponseEntity<Void> deleteuserPhraseComments(@RequestBody UserPhraseComments userPhraseComments) {
+    @DeleteMapping("/v1/userPhraseComment")
+    public ResponseEntity<Void> deleteuserPhraseComments(@RequestBody UserPhraseComment userPhraseComment) {
         try {
-            voiceRecorderService.deleteUserPhraseComments(userPhraseComments);
+            voiceRecorderService.deleteUserPhraseComments(userPhraseComment);
 
         } catch (Exception e ) {
             return ResponseEntity.internalServerError().build();
