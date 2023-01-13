@@ -3,14 +3,17 @@ package com.voicerecorder.service;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.voicerecorder.entity.UserPhrase;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
-
+@Service
 public class S3Service {
 
     private static final String BUCKET_NAME = "makah-asr";
@@ -18,6 +21,12 @@ public class S3Service {
     private static AmazonS3 client = AmazonS3ClientBuilder.defaultClient();
 
     // # key = 'recorded/'+recording_series+'/'+phrase_id + '_' + user_id+ "_"+ datetime_now.strftime("%Y-%m-%d_%H:%M:%S")+".txt"
+
+    public String getBucket() {
+        List<Bucket> buckets = client.listBuckets();
+        return buckets.get(0).getName();
+    }
+
 
     public UserPhrase saveAudioFileToS3(UserPhrase userPhrase, File audioFile)
             throws SdkClientException, IOException {
