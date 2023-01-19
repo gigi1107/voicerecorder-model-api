@@ -1,8 +1,8 @@
 package com.voicerecorder.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,11 +13,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class User extends VoiceRecorderObject implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
+    @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "first_name")
@@ -31,6 +33,13 @@ public class User implements Serializable {
 
     @Column(name = "project")
     private String project;
+
+    public User(String firstName, String lastName, String email, String project) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.project = project;
+    }
 
     public Long getId() {
         return id;

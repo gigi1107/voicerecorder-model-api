@@ -20,14 +20,16 @@ public class UserController {
 
     @PostMapping("/v1/user")
     @ResponseBody
-    public ResponseEntity<String> addUser(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        User response;
         try {
-            voiceRecorderService.addUser(user);
+            response = voiceRecorderService.addUser(user);
 
         } catch (Exception e ) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok().body("Success");
+        return ResponseEntity.ok(response);
 
     }
 
@@ -64,6 +66,7 @@ public class UserController {
             voiceRecorderService.deleteUserById(id);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();

@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 public class UserPhraseController {
 
     @Autowired
@@ -21,14 +21,16 @@ public class UserPhraseController {
 
     @PostMapping("/v1/userPhrase")
     @ResponseBody
-    public ResponseEntity<Void> addUserPhrase(@RequestBody UserPhrase userPhrase) {
+    public ResponseEntity<UserPhrase> addUserPhrase(@RequestBody UserPhrase userPhrase) {
+        UserPhrase response;
         try {
-            voiceRecorderService.addUserPhrase(userPhrase);
+            response = voiceRecorderService.addUserPhrase(userPhrase);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(response);
 
     }
 
@@ -39,6 +41,7 @@ public class UserPhraseController {
             voiceRecorderService.updateUserPhrase(userPhrase);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();
@@ -53,6 +56,7 @@ public class UserPhraseController {
             userPhrase = voiceRecorderService.getUserPhraseById(userPhraseId);
         }
         catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
 
@@ -67,6 +71,7 @@ public class UserPhraseController {
             voiceRecorderService.deleteUserById(id);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();
@@ -79,6 +84,7 @@ public class UserPhraseController {
             voiceRecorderService.deleteUserPhrase(userPhrase);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();

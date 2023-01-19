@@ -1,37 +1,37 @@
 package com.voicerecorder.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 
-// Shouldn't phrase sets correspond somehow with phrases?
 
 @Entity
 @Table(name = "phrase_sets")
 @Data
-public class PhraseSet implements Serializable {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class PhraseSet extends VoiceRecorderObject  implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "collection_sets_id_seq")
+    @SequenceGenerator(name = "collection_sets_id_seq", sequenceName = "collection_sets_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "phrase_set_name")
     private String phraseSetName;
 
     @Column(name = "start_date")
-    private String startDate;
+    private Date startDate;
 
     @Column(name = "end_date")
-    private String endDate;
+    private Date endDate;
 
-    public PhraseSet(Long id, String phraseSetName, String startDate, String endDate) {
-        this.id = id;
+    public PhraseSet(String phraseSetName, Date startDate, Date endDate) {
         this.phraseSetName = phraseSetName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -39,7 +39,6 @@ public class PhraseSet implements Serializable {
 
     public PhraseSet() {
     }
-
 
     public Long getId() {
         return id;
@@ -57,19 +56,19 @@ public class PhraseSet implements Serializable {
         this.phraseSetName = phraseSetName;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 

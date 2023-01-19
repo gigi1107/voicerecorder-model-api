@@ -1,20 +1,22 @@
 package com.voicerecorder.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "user_phrase_comments")
 @Data
-public class UserPhraseComment implements Serializable {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class UserPhraseComment extends VoiceRecorderObject implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_phrase_comments_id_seq")
+    @SequenceGenerator(name = "user_phrase_comments_id_seq", sequenceName = "user_phrase_comments_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "phrase_id")
@@ -24,13 +26,12 @@ public class UserPhraseComment implements Serializable {
     String comment;
 
     @Column(name = "date_time")
-    String dateTime;
+    Date dateTime;
 
     @Column(name = "user_id")
     Long userId;
 
-    public UserPhraseComment(Long id, Long phraseId, String comment, String dateTime, Long userId) {
-        this.id = id;
+    public UserPhraseComment(Long phraseId, String comment, Date dateTime, Long userId) {
         this.phraseId = phraseId;
         this.comment = comment;
         this.dateTime = dateTime;
@@ -64,11 +65,11 @@ public class UserPhraseComment implements Serializable {
         this.comment = comment;
     }
 
-    public String getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 

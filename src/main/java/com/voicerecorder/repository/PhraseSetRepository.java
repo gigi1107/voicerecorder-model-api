@@ -2,10 +2,11 @@ package com.voicerecorder.repository;
 
 import com.voicerecorder.entity.PhraseSet;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-
 public interface PhraseSetRepository extends JpaRepository<PhraseSet, Long> {
 
 //
@@ -22,5 +23,7 @@ public interface PhraseSetRepository extends JpaRepository<PhraseSet, Long> {
 //    private Timestamp endDate;
 
     @Query("UPDATE PhraseSet p SET p.phraseSetName = ?2, p.startDate = ?3, p.endDate = ?4 where p.id= ?1")
-    PhraseSet updatePhraseSet(Long id, String phraseSetName, String startDate, String endDate);
+    @Modifying
+    void updatePhraseSet(Long id, String phraseSetName, Date startDate, Date endDate);
+
 }

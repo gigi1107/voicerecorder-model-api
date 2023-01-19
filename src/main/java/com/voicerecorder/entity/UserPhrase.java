@@ -1,20 +1,22 @@
 package com.voicerecorder.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Date;
 import java.util.Objects;
 
 
 @Entity
 @Table(name = "user_phrases")
 @Data
-public class UserPhrase {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class UserPhrase extends VoiceRecorderObject  {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_phrases_id_seq")
+    @SequenceGenerator(name = "user_phrases_id_seq", sequenceName = "user_phrases_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "phrase_id")
@@ -24,13 +26,12 @@ public class UserPhrase {
     private Long userId;
 
     @Column(name = "date_time")
-    private String dateTime;
+    private Date dateTime;
 
     @Column(name = "file_path")
     private String filePath;
 
-    public UserPhrase(Long id, Long phraseId, Long userId, String dateTime, String filePath) {
-        this.id = id;
+    public UserPhrase(Long phraseId, Long userId, Date dateTime, String filePath) {
         this.phraseId = phraseId;
         this.userId = userId;
         this.dateTime = dateTime;
@@ -64,11 +65,11 @@ public class UserPhrase {
         this.userId = userId;
     }
 
-    public String getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 

@@ -1,6 +1,7 @@
 package com.voicerecorder.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,9 +12,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "phrases")
 @Data
-public class Phrase implements Serializable {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Phrase extends VoiceRecorderObject  implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "phrases_SEQ")
+    @SequenceGenerator(name = "phrases_SEQ", sequenceName = "phrases_SEQ", allocationSize = 1)
     private Long id;
 
     @Column(name = "phrase_set_id")
@@ -28,8 +32,7 @@ public class Phrase implements Serializable {
     @Column(name = "example_path")
     private String exampleRecordingPath;
 
-    public Phrase(Long id, Long phraseSetId, String original, String translation, String exampleRecordingPath) {
-        this.id = id;
+    public Phrase(Long phraseSetId, String original, String translation, String exampleRecordingPath) {
         this.phraseSetId = phraseSetId;
         this.original = original;
         this.translation = translation;
@@ -37,13 +40,6 @@ public class Phrase implements Serializable {
     }
 
     public Phrase() {
-    }
-
-    public Phrase(Long phraseSetId, String original, String translation, String exampleRecordingPath) {
-        this.phraseSetId = phraseSetId;
-        this.original = original;
-        this.translation = translation;
-        this.exampleRecordingPath = exampleRecordingPath;
     }
 
     public Long getId() {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 
 
-@Controller
+@RestController
 public class S3Controller {
 
     @Autowired

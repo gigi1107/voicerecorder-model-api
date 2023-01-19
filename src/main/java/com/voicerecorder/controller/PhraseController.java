@@ -38,6 +38,7 @@ public class PhraseController {
             response = voiceRecorderService.addPhrase(phrase);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok(response);
@@ -47,28 +48,28 @@ public class PhraseController {
     @PostMapping("/v1/phrase/{phraseId}")
     public ResponseEntity<Phrase> getPhraseById(@PathVariable Long phraseId) {
         Phrase phrase;
-
         try {
             phrase = voiceRecorderService.getPhraseById(phraseId);
         }
         catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-
         return ResponseEntity.ok().body(phrase);
 
     }
 
     @PutMapping("/v1/phrase")
-    public ResponseEntity<Phrase> updatePhrase(@RequestBody Phrase phrase) {
-        Phrase response;
+    public ResponseEntity<Void> updatePhrase(@RequestBody Phrase phrase) {
         try {
-            response = voiceRecorderService.updatePhrase(phrase);
+           voiceRecorderService.updatePhrase(phrase);
 
         } catch (Exception e ) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/v1/phrase/{phraseId}")
@@ -78,6 +79,7 @@ public class PhraseController {
             voiceRecorderService.deletePhrase(id);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();

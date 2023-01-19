@@ -1,9 +1,11 @@
 package com.voicerecorder.service;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.voicerecorder.entity.*;
 import com.voicerecorder.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @org.springframework.stereotype.Service
@@ -29,7 +31,7 @@ public class VoiceRecorderService {
         Phrase response = new Phrase();
 
         try {
-            phraseRepository.save(new Phrase());
+            phraseRepository.saveAndFlush(new Phrase());
 //            response = phraseRepository.getReferenceById(1L);
         } catch (Exception e) {
             System.out.println("There was an error");
@@ -45,15 +47,27 @@ public class VoiceRecorderService {
     //phrase stuff
 
     public Phrase addPhrase(Phrase phrase) {
-        return phraseRepository.save(phrase);
+        return phraseRepository.saveAndFlush(phrase);
     }
 
+    @Transactional
     public void deletePhrase(Long id) {
+        //delete all userPhrases associated with Phrase
+        userPhraseRepository.deleteUserPhrasesWithPhraseId(id);
+        userPhraseRepository.flush();
+        //delete all userPhraseComments associated with phrase
+        userPhraseCommentsRepository.deleteUserPhraseCommentsWithPhraseId(id);
+        userPhraseCommentsRepository.flush();
+        //finally, delete phrase
         phraseRepository.deleteById(id);
-    }
+        phraseRepository.flush();
 
-    public Phrase updatePhrase(Phrase phrase) {
-        return phraseRepository.updatePhrase(phrase.getId(), phrase.getOriginal(), phrase.getTranslation(), phrase.getExampleRecordingPath());
+
+    }
+    @Transactional
+    public void updatePhrase(Phrase phrase) {
+        phraseRepository.updatePhrase(phrase.getId(), phrase.getOriginal(), phrase.getTranslation(), phrase.getExampleRecordingPath());
+        phraseRepository.flush();
     }
 
     public Phrase getPhraseById(Long id) {
@@ -67,96 +81,127 @@ public class VoiceRecorderService {
 
     //user stuff
 
-    public void addUser(User user) {
-        userRepository.save(user);
+    public User addUser(User user) {
+       return userRepository.saveAndFlush(user);
     }
 
     public User getUserById(Long id) {
         return userRepository.getReferenceById(id);
     }
 
+    @Transactional
     public void deleteUser(User user) {
         userRepository.delete(user);
+        userRepository.flush();
     }
 
+    @Transactional
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
+        userRepository.flush();
+
     }
 
+    @Transactional
     public void updateUser(User user) {
         userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getProject());
+        userRepository.flush();
     }
 
     //phrase set
 
     public PhraseSet addPhraseSet(PhraseSet phraseSet) {
-        return phraseSetRepository.save(phraseSet);
+        return phraseSetRepository.saveAndFlush(phraseSet);
     }
 
     public PhraseSet getPhraseSetById(Long id) {
         return phraseSetRepository.getReferenceById(id);
     }
 
+    @Transactional
     public void deletePhraseSet(PhraseSet phraseSet) {
         phraseSetRepository.delete(phraseSet);
+        phraseSetRepository.flush();
     }
 
+    @Transactional
     public void deletePhraseSetById(Long id) {
         phraseSetRepository.deleteById(id);
+        phraseSetRepository.flush();
+
     }
 
-    public PhraseSet updatePhraseSet(PhraseSet phraseSet) {
-        return phraseSetRepository.updatePhraseSet(phraseSet.getId(), phraseSet.getPhraseSetName(), phraseSet.getStartDate(), phraseSet.getEndDate());
+    @Transactional
+    public void updatePhraseSet(PhraseSet phraseSet) {
+        phraseSetRepository.updatePhraseSet(phraseSet.getId(), phraseSet.getPhraseSetName(), phraseSet.getStartDate(), phraseSet.getEndDate());
+        phraseSetRepository.flush();
+
     }
 
     //UserPhrase
     public UserPhrase addUserPhrase(UserPhrase userPhrase) {
-        return userPhraseRepository.save(userPhrase);
+        return userPhraseRepository.saveAndFlush(userPhrase);
     }
 
-    public UserPhrase updateUserPhrase(UserPhrase userPhrase) {
-        return userPhraseRepository.updateUserPhrase(userPhrase.getId(), userPhrase.getPhraseId(),
+    @Transactional
+    public void updateUserPhrase(UserPhrase userPhrase) {
+        userPhraseRepository.updateUserPhrase(userPhrase.getId(), userPhrase.getPhraseId(),
                 userPhrase.getUserId(), userPhrase.getDateTime(), userPhrase.getFilePath());
+        userPhraseRepository.flush();
     }
 
     public UserPhrase getUserPhraseById(Long id) {
         return userPhraseRepository.getReferenceById(id);
     }
 
+    @Transactional
     public void deleteUserPhrase(UserPhrase userPhrase) {
+        userPhraseCommentsRepository.deleteUserPhraseCommentsWithUserPhraseId(userPhrase.getId());
         userPhraseRepository.delete(userPhrase);
+        userPhraseRepository.flush();
+
     }
 
+    @Transactional
     public void deleteUserPhraseById(Long id) {
         userPhraseRepository.deleteById(id);
+        userPhraseRepository.flush();
+
     }
 
 
     //UserPhraseComment
 
     public UserPhraseComment addUserPhraseComments(UserPhraseComment userPhraseComment) {
-        return userPhraseCommentsRepository.save(userPhraseComment);
+        return userPhraseCommentsRepository.saveAndFlush(userPhraseComment);
     }
 
     public UserPhraseComment getUserPhraseCommentsById(Long id) {
         return userPhraseCommentsRepository.getReferenceById(id);
     }
 
-    public UserPhraseComment updateUserPhraseComment(UserPhraseComment userPhraseComment) {
-        return userPhraseCommentsRepository.updateUserPhraseComment(
+    @Transactional
+    public void updateUserPhraseComment(UserPhraseComment userPhraseComment) {
+        userPhraseCommentsRepository.updateUserPhraseComment(
                 userPhraseComment.getId(),
                 userPhraseComment.getPhraseId(),
                 userPhraseComment.getComment(),
                 userPhraseComment.getDateTime(),
                 userPhraseComment.getUserId());
+
+        userPhraseCommentsRepository.flush();
     }
 
+    @Transactional
     public void deleteUserPhraseComments(UserPhraseComment userPhraseComment) {
         userPhraseCommentsRepository.delete(userPhraseComment);
-    }
+        userPhraseCommentsRepository.flush();
 
+    }
+    @Transactional
     public void deleteUserPhraseCommentsById(Long id) {
         userPhraseCommentsRepository.deleteById(id);
+        userPhraseCommentsRepository.flush();
     }
 
 

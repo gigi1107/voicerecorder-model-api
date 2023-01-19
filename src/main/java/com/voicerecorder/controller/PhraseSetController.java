@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+
+@RestController
 public class PhraseSetController {
 
     @Autowired
@@ -18,24 +20,27 @@ public class PhraseSetController {
 
     @PostMapping("/v1/phraseSet")
     public ResponseEntity<PhraseSet> addPhraseSet(@RequestBody PhraseSet phraseSet) {
+        PhraseSet response;
         try {
-            voiceRecorderService.addPhraseSet(phraseSet);
+            response = voiceRecorderService.addPhraseSet(phraseSet);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(response);
 
     }
 
     @PostMapping("/v1/phraseSet/{phraseSetId}")
-    public ResponseEntity<PhraseSet> getphraseSetById(@PathVariable Long phraseSetId) {
+    public ResponseEntity<PhraseSet> getPhraseSetById(@PathVariable Long phraseSetId) {
         PhraseSet phraseSet;
 
         try {
             phraseSet = voiceRecorderService.getPhraseSetById(phraseSetId);
         }
         catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
 
@@ -44,24 +49,25 @@ public class PhraseSetController {
     }
 
     @PutMapping("/v1/phraseSet")
-    public ResponseEntity<PhraseSet> updatephraseSet(@RequestBody PhraseSet phraseSet) {
-        PhraseSet result;
+    public ResponseEntity<Void> updatePhraseSet(@RequestBody PhraseSet phraseSet) {
         try {
-            result = voiceRecorderService.updatePhraseSet(phraseSet);
+           voiceRecorderService.updatePhraseSet(phraseSet);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/v1/phraseSet/{phraseSetId}")
-    public ResponseEntity<Void> deletephraseSet(@PathVariable String phraseSetId) {
+    public ResponseEntity<Void> deletePhraseSet(@PathVariable String phraseSetId) {
         try {
             Long id = Long.parseLong(phraseSetId);
             voiceRecorderService.deletePhraseSetById(id);
 
         } catch (Exception e ) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();
