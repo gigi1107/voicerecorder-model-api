@@ -2,14 +2,16 @@ package com.voicerecorder.controller;
 
 
 import com.voicerecorder.entity.UserPhrase;
+import com.voicerecorder.entity.UserPhraseWithAudioFile;
 import com.voicerecorder.service.S3Service;
 import com.voicerecorder.service.VoiceRecorderService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 
 @RestController
@@ -28,13 +30,14 @@ public class S3Controller {
         return ResponseEntity.ok(result);
     }
 
-    // POSTCONDITION: Client must also call updateUserPhrase with the proper File path from the return value.
+    // POSTCONDITION: Client must also call updateUserPhrase with the proper Fi
+    // le path from the return value.
     @PostMapping("/v1/userPhrase/s3")
     @ResponseBody
-    public ResponseEntity<UserPhrase> saveAudioFileToS3(@RequestBody UserPhrase userPhrase, @RequestBody File audioFile) {
+    public ResponseEntity<UserPhrase> saveAudioFileToS3(@RequestBody UserPhraseWithAudioFile userPhraseWithAudioFile) {
         UserPhrase result;
         try {
-            result = s3Service.saveAudioFileToS3(userPhrase, audioFile);
+            result = s3Service.saveAudioFileToS3(userPhraseWithAudioFile);
 
         } catch (Exception e ) {
             return ResponseEntity.internalServerError().build();
@@ -43,16 +46,19 @@ public class S3Controller {
 
     }
 
-    @PostMapping("/v1/userPhrase/s3/{keypath}")
+    @PostMapping("/v1/file/s3/{keypath}")
     @ResponseBody
-    public ResponseEntity<UserPhrase> getUserPhraseFromS3(@RequestParam String keypath) {
+    public ResponseEntity<List<Byte>> getFileFromS3(@RequestParam String keypath) {
+        byte[] bytes;
         try {
-            byte[] bytes = s3Service.getUserPhraseFromS3(keypath);
+            System.out.println("trying to fetch file from s3");
+             bytes = s3Service.getUserPhraseFromS3(keypath);
 
         } catch (Exception e ) {
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok().build();
+        List<Byte> list = Arrays.asList(ArrayUtils.toObject(bytes));
+        return ResponseEntity.ok(list);
     }
 
 }

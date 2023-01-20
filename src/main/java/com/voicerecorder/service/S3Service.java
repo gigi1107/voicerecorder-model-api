@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.voicerecorder.entity.UserPhrase;
+import com.voicerecorder.entity.UserPhraseWithAudioFile;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -28,20 +29,26 @@ public class S3Service {
     }
 
 
-    public UserPhrase saveAudioFileToS3(UserPhrase userPhrase, File audioFile)
+    public UserPhrase saveAudioFileToS3(UserPhraseWithAudioFile userPhraseWithAudioFile)
             throws SdkClientException, IOException {
-        String key = "recorded/" + userPhrase.getPhraseId() + "_" + userPhrase.getUserId() + "_" +
-                userPhrase.getDateTime() + ".wav";
-        client.putObject(BUCKET_NAME, key, audioFile);
+        String key = "recorded/" + userPhraseWithAudioFile.getUserPhrase().getPhraseId() + "_" + userPhraseWithAudioFile.getUserPhrase().getUserId() + "_" +
+                userPhraseWithAudioFile.getUserPhrase().getDateTime() + ".m4a";
+        client.putObject(BUCKET_NAME, key, userPhraseWithAudioFile.getAudioFile());
 
-        userPhrase.setFilePath(key);
-        return userPhrase;
+        userPhraseWithAudioFile.getUserPhrase().setFilePath(key);
+        return userPhraseWithAudioFile.getUserPhrase();
 
     }
 
     public byte[] getUserPhraseFromS3(String path) throws Exception {
 
-        S3Object s3Object = client.getObject(BUCKET_NAME, path);
+        S3Object s3Object;
+        try {
+            s3Object = client.getObject(BUCKET_NAME, path);
+        }  catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         S3ObjectInputStream content = s3Object.getObjectContent();
         return content.readAllBytes();
     }
