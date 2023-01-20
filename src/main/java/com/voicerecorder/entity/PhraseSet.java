@@ -15,7 +15,7 @@ import java.util.Objects;
 @Table(name = "phrase_sets")
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class PhraseSet extends VoiceRecorderObject  implements Serializable {
+public class PhraseSet  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "collection_sets_id_seq")
@@ -32,6 +32,13 @@ public class PhraseSet extends VoiceRecorderObject  implements Serializable {
     private Date endDate;
 
     public PhraseSet(String phraseSetName, Date startDate, Date endDate) {
+        this.phraseSetName = phraseSetName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public PhraseSet(Long id, String phraseSetName, Date startDate, Date endDate) {
+        this.id = id;
         this.phraseSetName = phraseSetName;
         this.startDate = startDate;
         this.endDate = endDate;

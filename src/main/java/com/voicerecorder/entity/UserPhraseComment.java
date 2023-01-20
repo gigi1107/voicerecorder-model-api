@@ -13,7 +13,7 @@ import java.util.Objects;
 @Table(name = "user_phrase_comments")
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserPhraseComment extends VoiceRecorderObject implements Serializable {
+public class UserPhraseComment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_phrase_comments_id_seq")
     @SequenceGenerator(name = "user_phrase_comments_id_seq", sequenceName = "user_phrase_comments_id_seq", allocationSize = 1)
@@ -32,6 +32,14 @@ public class UserPhraseComment extends VoiceRecorderObject implements Serializab
     Long userId;
 
     public UserPhraseComment(Long phraseId, String comment, Date dateTime, Long userId) {
+        this.phraseId = phraseId;
+        this.comment = comment;
+        this.dateTime = dateTime;
+        this.userId = userId;
+    }
+
+    public UserPhraseComment(Long id, Long phraseId, String comment, Date dateTime, Long userId) {
+        this.id = id;
         this.phraseId = phraseId;
         this.comment = comment;
         this.dateTime = dateTime;

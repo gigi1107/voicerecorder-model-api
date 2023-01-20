@@ -13,7 +13,7 @@ import java.util.Objects;
 @Table(name = "phrases")
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Phrase extends VoiceRecorderObject  implements Serializable {
+public class Phrase implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "phrases_SEQ")
@@ -33,6 +33,15 @@ public class Phrase extends VoiceRecorderObject  implements Serializable {
     private String exampleRecordingPath;
 
     public Phrase(Long phraseSetId, String original, String translation, String exampleRecordingPath) {
+        this.phraseSetId = phraseSetId;
+        this.original = original;
+        this.translation = translation;
+        this.exampleRecordingPath = exampleRecordingPath;
+    }
+
+    //Ctor for update operations where an ID is needed.
+    public Phrase(Long id, Long phraseSetId, String original, String translation, String exampleRecordingPath) {
+        this.id = id;
         this.phraseSetId = phraseSetId;
         this.original = original;
         this.translation = translation;

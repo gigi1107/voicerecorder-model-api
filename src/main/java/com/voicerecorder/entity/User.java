@@ -15,7 +15,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User extends VoiceRecorderObject implements Serializable {
+public class User  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
@@ -35,6 +35,14 @@ public class User extends VoiceRecorderObject implements Serializable {
     private String project;
 
     public User(String firstName, String lastName, String email, String project) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.project = project;
+    }
+
+    public User(Long id, String firstName, String lastName, String email, String project) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

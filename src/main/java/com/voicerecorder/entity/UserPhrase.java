@@ -13,7 +13,7 @@ import java.util.Objects;
 @Table(name = "user_phrases")
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserPhrase extends VoiceRecorderObject  {
+public class UserPhrase   {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_phrases_id_seq")
     @SequenceGenerator(name = "user_phrases_id_seq", sequenceName = "user_phrases_id_seq", allocationSize = 1)
@@ -32,6 +32,14 @@ public class UserPhrase extends VoiceRecorderObject  {
     private String filePath;
 
     public UserPhrase(Long phraseId, Long userId, Date dateTime, String filePath) {
+        this.phraseId = phraseId;
+        this.userId = userId;
+        this.dateTime = dateTime;
+        this.filePath = filePath;
+    }
+
+    public UserPhrase(Long id, Long phraseId, Long userId, Date dateTime, String filePath) {
+        this.id = id;
         this.phraseId = phraseId;
         this.userId = userId;
         this.dateTime = dateTime;
