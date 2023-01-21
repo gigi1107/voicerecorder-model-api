@@ -46,9 +46,9 @@ public class S3Controller {
 
     }
 
-    @PostMapping("/v1/file/s3/{keypath}")
+    @PostMapping("/v1/file/s3")
     @ResponseBody
-    public ResponseEntity<List<Byte>> getFileFromS3(@RequestParam String keypath) {
+    public ResponseEntity<List<Byte>> getFileFromS3(@RequestBody String keypath) {
         byte[] bytes;
         try {
             System.out.println("trying to fetch file from s3");

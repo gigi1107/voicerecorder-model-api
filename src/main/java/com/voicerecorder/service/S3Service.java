@@ -40,11 +40,10 @@ public class S3Service {
 
     }
 
-    public byte[] getUserPhraseFromS3(String path) throws Exception {
-
+    public byte[] getUserPhraseFromS3(String keyName) throws Exception {
         S3Object s3Object;
         try {
-            s3Object = client.getObject(BUCKET_NAME, path);
+            s3Object = client.getObject(BUCKET_NAME, keyName);
         }  catch (Exception e) {
             e.printStackTrace();
             return null;

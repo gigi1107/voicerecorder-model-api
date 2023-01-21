@@ -2,7 +2,6 @@ package com.voicerecorder.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.voicerecorder.entity.Phrase;
 import com.voicerecorder.entity.UserPhrase;
 import com.voicerecorder.entity.UserPhraseWithAudioFile;
 import com.voicerecorder.helpers.FileAdapter;
@@ -21,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.List;
 
 @SpringBootTest
 public class S3FunctionalTest {
@@ -51,22 +49,23 @@ public class S3FunctionalTest {
         request.setEntity(stringEntity);
         CloseableHttpResponse response = httpClient.execute(request);
         String result = EntityUtils.toString(response.getEntity());
-        System.out.println(result);
         Assertions.assertEquals(200, response.getCode());
-        UserPhrase returnedPhrase =  GSON.fromJson(result, UserPhrase.class);
+        UserPhrase returnedPhrase = GSON.fromJson(result, UserPhrase.class);
 
         String regex = "recorded/" + userPhrase.getPhraseId() + "_" + userPhrase.getUserId() + "_" +
                 userPhrase.getDateTime() + ".m4a";
 
         Assertions.assertEquals(regex, returnedPhrase.getFilePath());
 
-        System.out.println(returnedPhrase.getFilePath());
         //get file
-        String url = "http://localhost:8080/v1/file/s3/"+returnedPhrase.getFilePath();
-        System.out.println(url);
+        String url = "http://localhost:8080/v1/file/s3";
         HttpPost request2 = new HttpPost(url);
         request2.setHeader("Accept", "application/json");
         request2.setHeader("Content-type", "application/json");
+
+        StringEntity stringEntity1 = new StringEntity(returnedPhrase.getFilePath());
+
+        request2.setEntity(stringEntity1);
 
         CloseableHttpResponse response2 = httpClient.execute(request2);
         String entity = EntityUtils.toString(response2.getEntity());
@@ -78,5 +77,5 @@ public class S3FunctionalTest {
     }
 
 
-    }
+}
 
