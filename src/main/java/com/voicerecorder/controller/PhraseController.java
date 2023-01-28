@@ -18,18 +18,6 @@ public class PhraseController {
     @Autowired
     public JdbcTemplate template;
 
-    @GetMapping("/ping")
-    public ResponseEntity<Phrase> ping() {
-
-        Phrase response = voiceRecorderService.healthCheck();
-
-        if (response != null) {
-            return ResponseEntity.ok().body(response);
-        }
-        return ResponseEntity.internalServerError().body(null);
-    }
-
-
     @PostMapping("/v1/phrase")
     @ResponseBody
     public ResponseEntity<Phrase> addPhrase(@RequestBody Phrase phrase) {

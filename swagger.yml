@@ -39,11 +39,7 @@ paths:
       responses:
         "200":
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Phrase'
-
+          content: {}
         "400":
           description: Invalid ID supplied
           content: {}
@@ -70,7 +66,10 @@ paths:
       responses:
         "200":
           description: Successful operation
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phrase'
         "405":
           description: Invalid input
           content: {}
@@ -155,10 +154,7 @@ paths:
       responses:
         "200":
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
+          content: {}
         "404":
           description: User not found
           content: {}
@@ -246,9 +242,6 @@ paths:
       x-openapi-router-controller: swagger_server.controllers.UserController
 
 
-
-
-
   ### USER PHRASE
   /userPhrase:
     put:
@@ -266,10 +259,7 @@ paths:
       responses:
         "200":
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserPhrase'
+          content: {}
         "400":
           description: Invalid ID supplied
           content: {}
@@ -404,53 +394,6 @@ paths:
 
 
   ## Phrase Set
-
-  /phraseSet/{targetPhraseSetId}:
-    post:
-      tags:
-        - phrase
-        - phraseSet
-      summary: Retrieves a number of phrases from a phrase set.
-      description: Number should be greater than 0.
-      operationId: getPhrasesFromPhraseSet
-      parameters:
-        - name: targetPhraseSetId
-          in: path
-          description: The phraseSetId of the phrase set you want to get your phrases from
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        description: Number of phrases to retrieve from the DB
-        content:
-          application/json:
-            schema:
-              type: integer
-              format: int64
-        required: true
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Phrase'
-                x-content-type: application/json
-        "400":
-          description: Invalid ID supplied
-          content: {}
-        "404":
-          description: Not found
-          content: {}
-        "405":
-          description: Validation exception
-          content: {}
-      x-openapi-router-controller: swagger_server.controllers.PhraseSetController
   /phraseSet:
     put:
       tags:
@@ -467,10 +410,7 @@ paths:
       responses:
         "200":
           description: Successful Operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhraseSet'
+          content: {}
         "400":
           description: Invalid ID supplied
           content: {}
@@ -594,10 +534,7 @@ paths:
       responses:
         "200":
           description: Successful Operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserPhraseComment'
+          content: {}
         "400":
           description: Invalid ID supplied
           content: {}
@@ -708,14 +645,17 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         phraseSetId:
           type: integer
+          format: int64
         original:
           type: string
         translation:
           type: string
         exampleRecordingPath:
           type: string
+          format: uri
       xml:
         name: Phrase
     User:
@@ -723,12 +663,14 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         firstName:
           type: string
         lastName:
           type: string
         email:
           type: string
+          format: email
         project:
           type: string
       xml:
@@ -738,14 +680,19 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         phraseId:
           type: integer
+          format: int64
         userId:
           type: integer
+          format: int64
         dateTime:
           type: string
+          format: date-time
         filepath:
           type: string
+          format:  binary
         ## mp4, mp3, ogg vorbis, wav
         ## hex encoded binary string (b64)
         ## add param to tell what kind of file it is, so like (binaryString, wav)
@@ -756,12 +703,15 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         phraseSetName:
           type: string
         startDate:
           type: string
+          format: date-time
         endDate:
           type: string
+          format: date-time
       xml:
         name: PhraseSet
 
@@ -770,14 +720,18 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         phraseId:
           type: integer
+          format: int64
         comment:
           type: string
         dateTime:
           type: string
+          format: date-time
         userId:
           type: integer
+          format: int64
       xml:
         name: UserPhraseComment
 

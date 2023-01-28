@@ -29,9 +29,8 @@ public class S3FunctionalTest {
     long time = calendar.getTimeInMillis();
     private final Date DATE = new Date(time);
     private final Gson GSON = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
             .registerTypeAdapter(File.class, new FileAdapter()).create();
-
     @Test
     void saveAudioFile_S3_200() throws IOException, ParseException {
         File someFile = new File("/Users/gdavidson/Desktop/s3_audo_test.m4a");

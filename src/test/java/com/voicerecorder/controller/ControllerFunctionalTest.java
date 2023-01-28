@@ -27,7 +27,7 @@ import java.util.Calendar;
 @SpringBootTest
 class ControllerFunctionalTest {
 
-    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").create();
+    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create();
 
 
     static Calendar calendar = Calendar.getInstance();
