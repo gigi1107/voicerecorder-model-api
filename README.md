@@ -3,11 +3,18 @@ This repo contains the swagger.yml and generated Model.
 
 To install this, run
 
-mvn clean install
+mvn clean install -Dmaven.test.skip
 
 
 
 To run via docker compose:
+
+Make sure to build the docker image first
+
+JAR_FILE=voice-recorder-model-api-1.0-SNAPSHOT.jar TAG=latest docker-compose build
+
+then run 
+
 JAR_FILE=voice-recorder-model-api-1.0-SNAPSHOT.jar TAG=latest docker-compose up
 
 
