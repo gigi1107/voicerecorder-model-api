@@ -2,6 +2,7 @@ package com.voicerecorder.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.voicerecorder.entity.*;
 import com.voicerecorder.repository.*;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
@@ -20,8 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 @SpringBootTest
@@ -84,6 +88,41 @@ class ControllerFunctionalTest {
         Assertions.assertEquals(200, response.getCode());
 
     }
+
+    private List<Long> getAllRemainingPhraseIdsForUser(Long userId, Long phraseSetId) throws IOException, ParseException {
+        HttpPost request = new HttpPost("http://localhost:8080/v1/phraseSet/phraseSetId/" + phraseSetId);
+        String json = "{\"userId\":" + userId + "}";
+        request.setHeader("Accept", "application/json");
+        request.setHeader("Content-type", "application/json");
+        StringEntity stringEntity = new StringEntity(json);
+        request.setEntity(stringEntity);
+        CloseableHttpResponse response = httpClient.execute(request);
+        String result = EntityUtils.toString(response.getEntity());
+
+        Assertions.assertEquals(200, response.getCode());
+        Type listType = new TypeToken<ArrayList<Long>>(){}.getType();
+        List<Long> returnedPhraseIds =  GSON.fromJson(result, listType);
+
+        return returnedPhraseIds;
+    }
+
+    private List<Phrase> getAllRemainingPhrasesForUser(List<Long> phraseIds) throws IOException, ParseException {
+        HttpPost request = new HttpPost("http://localhost:8080/v1/phrase/all");
+
+        request.setHeader("Accept", "application/json");
+        request.setHeader("Content-type", "application/json");
+        String json = GSON.toJson(phraseIds);
+        StringEntity stringEntity = new StringEntity(json);
+        request.setEntity(stringEntity);
+
+        CloseableHttpResponse response = httpClient.execute(request);
+        String result = EntityUtils.toString(response.getEntity());
+        System.out.println(result);
+        Assertions.assertEquals(200, response.getCode());
+        List<Phrase> returnedPhrases =  GSON.fromJson(result, List.class);
+        return returnedPhrases;
+    }
+
 
     private Long addPhrase(Long phraseSetId) throws IOException, ParseException {
         Phrase phrase = new Phrase(phraseSetId, "orig", "translation", "exRecPath");
@@ -400,5 +439,24 @@ class ControllerFunctionalTest {
         Long userPhraseId = addUserPhrase(phraseId, userId);
         Long userPhraseCommentId = addUserPhraseComment(phraseId, userId);
         deleteRequestNoBody("userPhraseComment/"+userPhraseCommentId);
+    }
+
+    @Test
+    void test_getRemainingPhrases() throws IOException, ParseException {
+        Long userId = addUser();
+        Long phraseSetId = addPhraseSet();
+        Long phraseId1 = addPhrase(phraseSetId);
+        Long phraseId2 = addPhrase(phraseSetId);
+        Long userPhraseId = addUserPhrase(phraseId1, userId);
+        Long userPhraseId2 = addUserPhrase(phraseId2, userId);
+        Long userPhraseId3 = addUserPhrase(phraseId1, userId);
+
+        List<Long> ids = getAllRemainingPhraseIdsForUser(userId, phraseSetId);
+
+        Assertions.assertEquals(1, ids.size());
+        Assertions.assertEquals(phraseId2, ids.get(0));
+
+        List<Phrase> phrases = getAllRemainingPhrasesForUser(ids);
+        Assertions.assertEquals(1, phrases.size());
     }
 }

@@ -11,11 +11,11 @@ To run via docker compose:
 
 Make sure to build the docker image first
 
-JAR_FILE=voice-recorder-model-api-1.0-SNAPSHOT.jar TAG=latest docker-compose build
+JAR_FILE=voice-recorder-model-api-1.1-SNAPSHOT.jar TAG=latest docker-compose build
 
 then run 
 
-JAR_FILE=voice-recorder-model-api-1.0-SNAPSHOT.jar TAG=latest docker-compose up
+JAR_FILE=voice-recorder-model-api-1.1-SNAPSHOT.jar TAG=latest docker-compose up db
 
 
 ----

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class PhraseController {
@@ -46,6 +48,22 @@ public class PhraseController {
         return ResponseEntity.ok().body(phrase);
 
     }
+
+    @PostMapping("/v1/phrase/all")
+    public ResponseEntity<List<Phrase>> getAllPhrasesByIds(@RequestBody List<Long> phraseIds) {
+        List<Phrase> phrases;
+        try {
+            phrases = voiceRecorderService.getPhraseListByIds(phraseIds);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().body(phrases);
+
+    }
+
+
 
     @PutMapping("/v1/phrase")
     public ResponseEntity<Void> updatePhrase(@RequestBody Phrase phrase) {

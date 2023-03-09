@@ -176,3 +176,39 @@ ALTER TABLE
   user_phrases
 ADD
   CONSTRAINT user_phrases_user_id_fkey FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--create view user_phrase_count AS
+--SELECT u.user_id, u.phrase_id, u.phrase_set_id, COALESCE(c, 0) AS c
+--FROM (
+--  SELECT u.id AS user_id, p.id AS phrase_id, p.phrase_set_id
+--  FROM users u
+--  FULL JOIN phrases p ON TRUE
+--) AS u
+--LEFT JOIN (
+--  SELECT up.user_id, p.id AS phrase_id, COUNT(*) AS c
+--  FROM user_phrases up
+--  FULL OUTER JOIN phrases p ON up.phrase_id = p.id
+--  WHERE up.user_id IS NOT NULL
+--  GROUP BY p.id, up.user_id
+--) AS up
+--ON u.user_id = up.user_id AND u.phrase_id = up.phrase_id;
+
+CREATE VIEW user_phrase_count AS
+SELECT ROW_NUMBER() OVER (ORDER BY u.user_id, u.phrase_id) AS id,
+       u.user_id,
+       u.phrase_id,
+       u.phrase_set_id,
+       COALESCE(c, 0) AS c
+FROM (
+  SELECT u.id AS user_id, p.id AS phrase_id, p.phrase_set_id
+  FROM users u
+  FULL JOIN phrases p ON TRUE
+) AS u
+LEFT JOIN (
+  SELECT up.user_id, p.id AS phrase_id, COUNT(*) AS c
+  FROM user_phrases up
+  FULL OUTER JOIN phrases p ON up.phrase_id = p.id
+  WHERE up.user_id IS NOT NULL
+  GROUP BY p.id, up.user_id
+) AS up
+ON u.user_id = up.user_id AND u.phrase_id = up.phrase_id;

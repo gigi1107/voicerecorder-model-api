@@ -7,6 +7,8 @@ import com.voicerecorder.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @org.springframework.stereotype.Service
 public class VoiceRecorderService {
@@ -25,6 +27,9 @@ public class VoiceRecorderService {
 
     @Autowired
     UserPhraseCommentsRepository userPhraseCommentsRepository;
+
+    @Autowired
+    UserPhraseCountRepository userPhraseCountRepository;
 
 
     public Phrase healthCheck() {
@@ -74,9 +79,8 @@ public class VoiceRecorderService {
         return phraseRepository.getReferenceById(id);
     }
 
-//    public List<Phrase> getPhrasesFromPhraseSet(int number, Long targetPhraseSetId) {
-//
-//    }
+
+    public List<Phrase> getPhraseListByIds(List<Long> phraseIds) {return phraseRepository.findAllById(phraseIds);}
 
 
     //user stuff
@@ -203,6 +207,13 @@ public class VoiceRecorderService {
         userPhraseCommentsRepository.deleteById(id);
         userPhraseCommentsRepository.flush();
     }
+
+    //UserPhraseCount
+
+    public List<UserPhraseCount> getRemainingPhrasesToRecordFromPhraseSet(Long userId, Long phraseSetId) {
+        return userPhraseCountRepository.getRemainingPhrasesGivenUserIdAndPhraseSetId(userId, phraseSetId);
+    }
+
 
 
 }
