@@ -33,6 +33,14 @@ services:
 #      - ./postgres-data:/var/lib/postgresql/data
       # copy the sql script to create tables
       - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      -
+  s3:
+    container_name: s3
+    image: localstack/localstack
+    ports:
+      - 4566:4566
+    networks:
+      -voicerecorder_network
 
 networks:
   voicerecorder_network:
