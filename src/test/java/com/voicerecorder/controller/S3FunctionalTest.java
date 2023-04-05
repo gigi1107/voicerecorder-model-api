@@ -33,12 +33,12 @@ public class S3FunctionalTest {
             .registerTypeAdapter(File.class, new FileAdapter()).create();
     @Test
     void saveAudioFile_S3_200() throws IOException, ParseException {
-        File someFile = new File("/Users/gdavidson/Desktop/s3_audo_test.m4a");
+        File someFile = new File("/app/s3_audio_test.m4a");
         UserPhrase userPhrase = new UserPhrase(1L, 1L, DATE, "");
 
         UserPhraseWithAudioFile userPhraseWithAudioFile = new UserPhraseWithAudioFile(userPhrase, someFile);
 
-        HttpPost request = new HttpPost("http://localhost:8080/v1/userPhrase/s3");
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/userPhrase/s3");
         request.setHeader("Accept", "application/json");
         request.setHeader("Content-type", "application/json");
 
@@ -57,7 +57,7 @@ public class S3FunctionalTest {
         Assertions.assertEquals(regex, returnedPhrase.getFilePath());
 
         //get file
-        String url = "http://localhost:8080/v1/file/s3";
+        String url = "http://voicerecorder:8080/v1/file/s3";
         HttpPost request2 = new HttpPost(url);
         request2.setHeader("Accept", "application/json");
         request2.setHeader("Content-type", "application/json");
@@ -75,6 +75,25 @@ public class S3FunctionalTest {
 
     }
 
+    @Test
+    void fetchNonexistentPhrase_failure() throws IOException, ParseException {
+        //get file
+        String url = "http://voicerecorder:8080/v1/file/s3";
+        HttpPost request2 = new HttpPost(url);
+        request2.setHeader("Accept", "application/json");
+        request2.setHeader("Content-type", "application/json");
 
+        StringEntity stringEntity1 = new StringEntity("/iDoNot/exist");
+
+        request2.setEntity(stringEntity1);
+
+        CloseableHttpResponse response2 = httpClient.execute(request2);
+        String entity = EntityUtils.toString(response2.getEntity());
+
+        Assertions.assertEquals(404, response2.getCode());
+
+        Assertions.assertNotNull(entity);
+
+    }
 }
 

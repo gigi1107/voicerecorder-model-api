@@ -10,4 +10,4 @@ ENV JAR_FILE=${JAR_FILE}
 
 COPY target/${JAR_FILE} app.jar
 
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT exec java ${JAVA_OPTS} -jar app.jar

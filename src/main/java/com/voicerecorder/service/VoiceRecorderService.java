@@ -1,7 +1,6 @@
 package com.voicerecorder.service;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.voicerecorder.entity.*;
 import com.voicerecorder.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;

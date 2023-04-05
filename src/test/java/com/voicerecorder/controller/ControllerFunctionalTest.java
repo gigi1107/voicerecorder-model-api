@@ -73,7 +73,7 @@ class ControllerFunctionalTest {
     }
 
     private void deleteRequestNoBody(String suffix) throws IOException {
-        HttpDelete request = new HttpDelete("http://localhost:8080/v1/" + suffix);
+        HttpDelete request = new HttpDelete("http://voicerecorder:8080/v1/" + suffix);
         request.setHeader("Accept", "application/json");
         request.setHeader("Content-type", "application/json");
         CloseableHttpResponse response = httpClient.execute(request);
@@ -81,7 +81,7 @@ class ControllerFunctionalTest {
     }
 
     private void postRequestNoBody(String suffix) throws IOException {
-        HttpPost request = new HttpPost("http://localhost:8080/v1/" + suffix);
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/" + suffix);
         request.setHeader("Accept", "application/json");
         request.setHeader("Content-type", "application/json");
         CloseableHttpResponse response = httpClient.execute(request);
@@ -90,7 +90,7 @@ class ControllerFunctionalTest {
     }
 
     private List<Long> getAllRemainingPhraseIdsForUser(Long userId, Long phraseSetId) throws IOException, ParseException {
-        HttpPost request = new HttpPost("http://localhost:8080/v1/phraseSet/phraseSetId/" + phraseSetId);
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/phraseSet/phraseSetId/" + phraseSetId);
         String json = "{\"userId\":" + userId + "}";
         request.setHeader("Accept", "application/json");
         request.setHeader("Content-type", "application/json");
@@ -107,7 +107,7 @@ class ControllerFunctionalTest {
     }
 
     private List<Phrase> getAllRemainingPhrasesForUser(List<Long> phraseIds) throws IOException, ParseException {
-        HttpPost request = new HttpPost("http://localhost:8080/v1/phrase/all");
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/phrase/all");
 
         request.setHeader("Accept", "application/json");
         request.setHeader("Content-type", "application/json");
@@ -126,7 +126,7 @@ class ControllerFunctionalTest {
 
     private Long addPhrase(Long phraseSetId) throws IOException, ParseException {
         Phrase phrase = new Phrase(phraseSetId, "orig", "translation", "exRecPath");
-        HttpPost request = new HttpPost("http://localhost:8080/v1/phrase");
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/phrase");
         String json = GSON.toJson(phrase);
         StringEntity stringEntity = new StringEntity(json);
         request.setEntity(stringEntity);
@@ -141,7 +141,7 @@ class ControllerFunctionalTest {
     }
 
     private void updatePhrase(Phrase updatedPhrase) throws IOException, ParseException {
-        HttpPut request = new HttpPut("http://localhost:8080/v1/phrase");
+        HttpPut request = new HttpPut("http://voicerecorder:8080/v1/phrase");
         String json = GSON.toJson(updatedPhrase);
         StringEntity stringEntity = new StringEntity(json);
         request.setEntity(stringEntity);
@@ -154,7 +154,7 @@ class ControllerFunctionalTest {
 
     private Long addPhraseSet() throws IOException, ParseException {
         PhraseSet phraseSet = new PhraseSet("myTestPhraseSet", DATE, DATE );
-        HttpPost request = new HttpPost("http://localhost:8080/v1/phraseSet");
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/phraseSet");
         String json = GSON.toJson(phraseSet);
         StringEntity stringEntity = new StringEntity(json);
         request.setEntity(stringEntity);
@@ -170,7 +170,7 @@ class ControllerFunctionalTest {
 
     private void updatePhraseSet(PhraseSet updatedPhraseSet) throws IOException {
 
-        HttpPut request = new HttpPut("http://localhost:8080/v1/phraseSet");
+        HttpPut request = new HttpPut("http://voicerecorder:8080/v1/phraseSet");
         String json = GSON.toJson(updatedPhraseSet);
         StringEntity stringEntity = new StringEntity(json);
         request.setEntity(stringEntity);
@@ -182,7 +182,7 @@ class ControllerFunctionalTest {
     }
 
     private Long addUser() throws IOException, ParseException {
-        HttpPost request = new HttpPost("http://localhost:8080/v1/user");
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/user");
         User user = new User("fn", "ln", "la", "de");
         String json = GSON.toJson(user);
         StringEntity stringEntity = new StringEntity(json);
@@ -199,7 +199,7 @@ class ControllerFunctionalTest {
 
     private void updateUser(User updateUser) throws IOException {
 
-        HttpPut request = new HttpPut("http://localhost:8080/v1/user");
+        HttpPut request = new HttpPut("http://voicerecorder:8080/v1/user");
         String json = GSON.toJson(updateUser);
         StringEntity stringEntity = new StringEntity(json);
         request.setEntity(stringEntity);
@@ -211,7 +211,7 @@ class ControllerFunctionalTest {
     }
 
     private Long addUserPhrase(Long phraseId, Long userId) throws IOException, ParseException {
-        HttpPost request = new HttpPost("http://localhost:8080/v1/userPhrase");
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/userPhrase");
         UserPhrase userPhrase = new UserPhrase(phraseId, userId, DATE, "fp");
         String json = GSON.toJson(userPhrase);
         StringEntity stringEntity = new StringEntity(json);
@@ -228,7 +228,7 @@ class ControllerFunctionalTest {
 
     private void updateUserPhrase(UserPhrase updateUserPhrase) throws IOException {
 
-        HttpPut request = new HttpPut("http://localhost:8080/v1/userPhrase");
+        HttpPut request = new HttpPut("http://voicerecorder:8080/v1/userPhrase");
         String json = GSON.toJson(updateUserPhrase);
         StringEntity stringEntity = new StringEntity(json);
         request.setEntity(stringEntity);
@@ -240,7 +240,7 @@ class ControllerFunctionalTest {
     }
 
     private Long addUserPhraseComment(Long phraseId, Long userId) throws IOException, ParseException {
-        HttpPost request = new HttpPost("http://localhost:8080/v1/userPhraseComment");
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/userPhraseComment");
         UserPhraseComment userPhraseComment = new UserPhraseComment(phraseId, "comment", DATE, userId);
         String json = GSON.toJson(userPhraseComment);
         StringEntity stringEntity = new StringEntity(json);
@@ -257,7 +257,7 @@ class ControllerFunctionalTest {
 
     private void updateUserPhraseComment(UserPhraseComment updatedUserPhraseComment) throws IOException {
 
-        HttpPut request = new HttpPut("http://localhost:8080/v1/userPhraseComment");
+        HttpPut request = new HttpPut("http://voicerecorder:8080/v1/userPhraseComment");
         String json = GSON.toJson(updatedUserPhraseComment);
         StringEntity stringEntity = new StringEntity(json);
         request.setEntity(stringEntity);

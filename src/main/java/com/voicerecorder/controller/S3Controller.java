@@ -3,15 +3,20 @@ package com.voicerecorder.controller;
 
 import com.voicerecorder.entity.UserPhrase;
 import com.voicerecorder.entity.UserPhraseWithAudioFile;
+import com.voicerecorder.model.response.BucketResponse;
 import com.voicerecorder.service.S3Service;
 import com.voicerecorder.service.VoiceRecorderService;
-import org.apache.commons.lang3.ArrayUtils;
+import io.minio.errors.*;
+import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.List;
 
 
 @RestController
@@ -25,7 +30,7 @@ public class S3Controller {
 
     @GetMapping("/s3")
     @ResponseBody
-    public ResponseEntity<String> getS3Buckets() {
+    public ResponseEntity<String> getS3Buckets() throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         String result = s3Service.getBucket();
         return ResponseEntity.ok(result);
     }
@@ -40,6 +45,11 @@ public class S3Controller {
             result = s3Service.saveAudioFileToS3(userPhraseWithAudioFile);
 
         } catch (Exception e ) {
+            if (e instanceof FileNotFoundException) {
+                FileNotFoundException fileNotFoundException = (FileNotFoundException) e;
+                e.printStackTrace();
+                return ResponseEntity.notFound().build();
+            }
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().body(result);
@@ -48,17 +58,21 @@ public class S3Controller {
 
     @PostMapping("/v1/file/s3")
     @ResponseBody
-    public ResponseEntity<List<Byte>> getFileFromS3(@RequestBody String keypath) {
-        byte[] bytes;
+    public ResponseEntity<String> getFileFromBucket(@RequestBody String keypath) {
+        byte[] response;
         try {
             System.out.println("trying to fetch file from s3");
-             bytes = s3Service.getUserPhraseFromS3(keypath);
+             response = s3Service.getUserPhraseFromS3(keypath);
 
         } catch (Exception e ) {
-            return ResponseEntity.internalServerError().build();
+            if(e instanceof  ErrorResponseException) {
+                ErrorResponseException errorResponseException = (ErrorResponseException) e;
+                Response response1 = errorResponseException.response();
+                return ResponseEntity.status(response1.code()).body(errorResponseException.getMessage());
+            }
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
-        List<Byte> list = Arrays.asList(ArrayUtils.toObject(bytes));
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok().body(Arrays.toString(response));
     }
 
 }
