@@ -2,7 +2,6 @@ package com.voicerecorder.service;
 
 import com.voicerecorder.entity.UserPhrase;
 import com.voicerecorder.entity.UserPhraseWithAudioFile;
-import com.voicerecorder.model.response.BucketResponse;
 import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
 import io.minio.MinioClient;
@@ -15,13 +14,12 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Service
-public class S3Service {
+public class BucketStorageService {
 
     private static final String BUCKET_NAME = "makah-asr";
 
@@ -39,7 +37,7 @@ public class S3Service {
     }
 
 
-    public UserPhrase saveAudioFileToS3(UserPhraseWithAudioFile userPhraseWithAudioFile)
+    public UserPhrase saveAudioFileToBucket(UserPhraseWithAudioFile userPhraseWithAudioFile)
             throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
 
         String key = "recorded/" + userPhraseWithAudioFile.getUserPhrase().getPhraseId() + "_" + userPhraseWithAudioFile.getUserPhrase().getUserId() + "_" +
@@ -54,7 +52,7 @@ public class S3Service {
 
     }
 
-    public byte[] getUserPhraseFromS3(String keyName) throws Exception {
+    public byte[] getUserPhraseFromBucket(String keyName) throws Exception {
         GetObjectArgs getObjectArgs = GetObjectArgs.builder().object(keyName).bucket(BUCKET_NAME).build();
         GetObjectResponse getObjectResponse = minioClient.getObject(getObjectArgs);
         byte[] bytes = getObjectResponse.readAllBytes();

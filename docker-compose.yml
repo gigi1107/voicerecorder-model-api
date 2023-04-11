@@ -27,7 +27,7 @@ services:
       - db
       - minio
     volumes:
-      - /Users/gdavidson/Documents/IndigenousAI_Project/voicerecorderservice/s3_audio_test.m4a:/app/s3_audio_test.m4a:ro
+      - /Users/gdavidson/Documents/IndigenousAI_Project/voicerecorderservice/s3_audio_test.flac:/app/s3_audio_test.flac:ro
     networks:
       - voicerecorder_network
 

@@ -16,13 +16,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Date;
 import java.util.Calendar;
 
 @SpringBootTest
-public class S3FunctionalTest {
+public class BucketStorageFunctionalTest {
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
 
     Calendar calendar = Calendar.getInstance();
@@ -32,13 +31,13 @@ public class S3FunctionalTest {
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
             .registerTypeAdapter(File.class, new FileAdapter()).create();
     @Test
-    void saveAudioFile_S3_200() throws IOException, ParseException {
-        File someFile = new File("/app/s3_audio_test.m4a");
+    void saveAudioFileToBucket_200() throws IOException, ParseException {
+        File someFile = new File("/app/s3_audio_test.flac");
         UserPhrase userPhrase = new UserPhrase(1L, 1L, DATE, "");
 
         UserPhraseWithAudioFile userPhraseWithAudioFile = new UserPhraseWithAudioFile(userPhrase, someFile);
 
-        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/userPhrase/s3");
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/file");
         request.setHeader("Accept", "application/json");
         request.setHeader("Content-type", "application/json");
 
@@ -57,7 +56,7 @@ public class S3FunctionalTest {
         Assertions.assertEquals(regex, returnedPhrase.getFilePath());
 
         //get file
-        String url = "http://voicerecorder:8080/v1/file/s3";
+        String url = "http://voicerecorder:8080/v1/file/get";
         HttpPost request2 = new HttpPost(url);
         request2.setHeader("Accept", "application/json");
         request2.setHeader("Content-type", "application/json");
@@ -68,24 +67,28 @@ public class S3FunctionalTest {
 
         CloseableHttpResponse response2 = httpClient.execute(request2);
         String entity = EntityUtils.toString(response2.getEntity());
+        System.out.println("entity response: " + entity);
+        FileWriter myWriter = new FileWriter("outfile.txt");
+        myWriter.write(entity);
+        myWriter.close();
 
         Assertions.assertEquals(200, response2.getCode());
 
         Assertions.assertNotNull(entity);
+
+        // test to make sure file is proper file
+
+
 
     }
 
     @Test
     void fetchNonexistentPhrase_failure() throws IOException, ParseException {
         //get file
-        String url = "http://voicerecorder:8080/v1/file/s3";
+        String url = "http://voicerecorder:8080/v1/file/iDoNot-exist";
         HttpPost request2 = new HttpPost(url);
         request2.setHeader("Accept", "application/json");
         request2.setHeader("Content-type", "application/json");
-
-        StringEntity stringEntity1 = new StringEntity("/iDoNot/exist");
-
-        request2.setEntity(stringEntity1);
 
         CloseableHttpResponse response2 = httpClient.execute(request2);
         String entity = EntityUtils.toString(response2.getEntity());
@@ -95,5 +98,37 @@ public class S3FunctionalTest {
         Assertions.assertNotNull(entity);
 
     }
-}
+
+//    @Test
+//    void verify_contents_byteArray() {
+//        try {
+//            // Step 1: Read the contents of the text file containing the byte array
+//            FileInputStream fis = new FileInputStream("outfile.txt");
+//            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+//
+//            String byteString = br.readLine();
+//
+//            // Step 2: Convert the contents of the text file into a byte array
+//            String[] byteValues = byteString.substring(1, byteString.length() - 1).split(",");
+//            byte[] byteArray = new byte[byteValues.length];
+//
+//            for (int i = 0; i < byteValues.length; i++) {
+//                byteArray[i] = Byte.parseByte(byteValues[i].trim());
+//            }
+//
+//            // Step 3: Write the byte array to a new file with a ".flac" file extension
+//            FileOutputStream fos = new FileOutputStream("output.flac");
+//            fos.write(byteArray);
+//            fos.close();
+//
+//            System.out.println("Byte array successfully written to file.");
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+    }
+
+
+
 

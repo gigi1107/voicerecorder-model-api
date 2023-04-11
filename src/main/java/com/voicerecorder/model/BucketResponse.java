@@ -1,4 +1,4 @@
-package com.voicerecorder.model.response;
+package com.voicerecorder.model;
 
 import lombok.*;
 import org.springframework.http.HttpStatus;

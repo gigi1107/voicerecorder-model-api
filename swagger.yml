@@ -22,7 +22,12 @@ tags:
     description: Operations with PhraseSet objects
   - name: userPhraseComment
     description: Operations with UserPhraseComment objects
+  - name: userPhraseCount
+    description: Operations with userPhraseCount objects
+  - name: userPhraseWithAudio
+    description: Operations with userPhraseWithAudio objects
 paths:
+  ## PHRASE
   /phrase:
     put:
       tags:
@@ -137,7 +142,7 @@ paths:
       x-codegen-request-body-name: phrase
       x-openapi-router-controller: swagger_server.controllers.PhraseController
 
-
+  ## USER
   /user:
     put:
       tags:
@@ -296,6 +301,56 @@ paths:
           content: {}
       x-codegen-request-body-name: userPhrase
       x-openapi-router-controller: swagger_server.controllers.UserPhraseController
+
+  /file:
+    post:
+      summary: Saves a voice recording to bucket for a particular user
+      operationId: saveAudioFileToBucket
+      requestBody:
+        description: UserPhraseWithAudioFile object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPhraseWithAudioFile'
+        required: true
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPhrase'
+        "405":
+          description: Validation exception
+          content: { }
+      x-codegen-request-body-name: userPhrase
+      x-openapi-router-controller: swagger_server.controllers.BucketStorageController
+  /file/{keypath}:
+    post:
+      summary: Gets file from bucket with given keypath
+      operationId: getFileFromBucket
+      parameters:
+        - name: keypath
+          in: path
+          description: The path of the file you want to fetch from the bucket.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-openapi-router-controller: swagger_server.controllers.BucketStorageController
+
+
+
+
+
   /userPhrase/{userPhraseId}:
     post:
       tags:
@@ -391,6 +446,8 @@ paths:
           content: {}
       x-codegen-request-body-name: userPhrase
       x-openapi-router-controller: swagger_server.controllers.UserPhraseController
+
+
 
 
   ## Phrase Set
@@ -518,6 +575,48 @@ paths:
       x-codegen-request-body-name: phraseSet
       x-openapi-router-controller: swagger_server.controllers.PhraseSetController
 
+  ##UserPhraseCount
+
+  /phraseIds:
+    post:
+      tags:
+        - phraseId
+      summary: get All Remaining PhraseIds For A User And PhraseSet
+      operationId: getAllRemainingPhraseIdsForAUserAndPhraseSet
+      requestBody:
+        description: PhraseRequest object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhraseRequest'
+        required: true
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+
+
+        "400":
+          description: Invalid ID supplied
+          content: { }
+        "404":
+          description: Not found
+          content: { }
+        "405":
+          description: Validation exception
+          content: { }
+      x-codegen-request-body-name: phraseRequest
+      x-openapi-router-controller: swagger_server.controllers.UserPhraseCountController
+
+
+
+  ## USER PHRASE COMMENT
   /userPhraseComment:
     put:
       tags:
@@ -734,6 +833,34 @@ components:
           format: int64
       xml:
         name: UserPhraseComment
+    UserPhraseWithAudioFile:
+      type: object
+      properties:
+        userPhrase:
+          $ref: '#/components/schemas/UserPhrase'
+        file:
+          type: string
+          format: byte
+      xml:
+        name: UserPhraseWithAudioFile
+    PhraseRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        phraseSetId:
+          type: integer
+          format: int64
+      xml:
+        name: PhraseRequest
+
+
+
+
+
+
+
 
 
 

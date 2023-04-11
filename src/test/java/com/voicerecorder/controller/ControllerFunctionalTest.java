@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.voicerecorder.entity.*;
+import com.voicerecorder.model.PhraseRequest;
 import com.voicerecorder.repository.*;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -90,11 +91,11 @@ class ControllerFunctionalTest {
     }
 
     private List<Long> getAllRemainingPhraseIdsForUser(Long userId, Long phraseSetId) throws IOException, ParseException {
-        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/phraseSet/phraseSetId/" + phraseSetId);
-        String json = "{\"userId\":" + userId + "}";
+        HttpPost request = new HttpPost("http://voicerecorder:8080/v1/phraseIds");
         request.setHeader("Accept", "application/json");
         request.setHeader("Content-type", "application/json");
-        StringEntity stringEntity = new StringEntity(json);
+        PhraseRequest phraseRequest = PhraseRequest.builder().userId(userId).phraseSetId(phraseSetId).build();
+        StringEntity stringEntity = new StringEntity(GSON.toJson(phraseRequest));
         request.setEntity(stringEntity);
         CloseableHttpResponse response = httpClient.execute(request);
         String result = EntityUtils.toString(response.getEntity());
