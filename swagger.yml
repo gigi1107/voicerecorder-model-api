@@ -304,6 +304,8 @@ paths:
 
   /file:
     post:
+      tags:
+        - userPhraseWithAudio
       summary: Saves a voice recording to bucket for a particular user
       operationId: saveAudioFileToBucket
       requestBody:
@@ -327,6 +329,8 @@ paths:
       x-openapi-router-controller: swagger_server.controllers.BucketStorageController
   /file/{keypath}:
     post:
+      tags:
+        - userPhraseWithAudio
       summary: Gets file from bucket with given keypath
       operationId: getFileFromBucket
       parameters:
@@ -580,7 +584,7 @@ paths:
   /phraseIds:
     post:
       tags:
-        - phraseId
+        - userPhraseCount
       summary: get All Remaining PhraseIds For A User And PhraseSet
       operationId: getAllRemainingPhraseIdsForAUserAndPhraseSet
       requestBody:
