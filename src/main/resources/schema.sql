@@ -51,7 +51,8 @@ DROP TABLE IF EXISTS phrases;CREATE TABLE phrases(
   phrase_set_id int4 NOT NULL,
   phrase varchar(255) COLLATE pg_catalog.default NOT NULL,
   english varchar(255) COLLATE pg_catalog.default,
-  example_path varchar(255) COLLATE pg_catalog.default
+  example_path varchar(255) COLLATE pg_catalog.default,
+  enabled boolean
 );COMMENT ON COLUMN phrases.phrase_set_id IS 'what recording set is this';COMMENT ON COLUMN phrases.phrase IS 'phrase in langauge';COMMENT ON COLUMN phrases.example_path IS 'example audio path';-- ----------------------------
 -- Table structure for user_phrase_comments
 -- ----------------------------
@@ -70,6 +71,9 @@ DROP TABLE IF EXISTS user_phrases;CREATE TABLE user_phrases (
 --   DEFAULT nextval('user_phrases_id_seq' :: regclass),
   phrase_id int4 NOT NULL,
   user_id int4 NOT NULL,
+  file_hash varchar(255) unique,
+  file_is_valid boolean,
+  delivered boolean, -- delivered to user
   date_time timestamp(6) NOT NULL DEFAULT now(),
   file_path varchar(255) COLLATE pg_catalog.default
 );-- ----------------------------
