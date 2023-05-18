@@ -209,6 +209,7 @@ public class VoiceRecorderService {
 
     //UserPhraseCount
 
+    // Fetches 5 phrases from DB that still need to be recorded
     public List<UserPhraseCount> getRemainingPhrasesToRecordFromPhraseSet(Long userId, Long phraseSetId) {
         return userPhraseCountRepository.getRemainingPhrasesGivenUserIdAndPhraseSetId(userId, phraseSetId);
     }
