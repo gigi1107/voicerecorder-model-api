@@ -27,9 +27,6 @@ public class VoiceRecorderService {
     @Autowired
     UserPhraseCommentsRepository userPhraseCommentsRepository;
 
-    @Autowired
-    UserPhraseCountRepository userPhraseCountRepository;
-
 
     public Phrase healthCheck() {
         Phrase response = new Phrase();
@@ -205,13 +202,6 @@ public class VoiceRecorderService {
     public void deleteUserPhraseCommentsById(Long id) {
         userPhraseCommentsRepository.deleteById(id);
         userPhraseCommentsRepository.flush();
-    }
-
-    //UserPhraseCount
-
-    // Fetches 5 phrases from DB that still need to be recorded
-    public List<UserPhraseCount> getRemainingPhrasesToRecordFromPhraseSet(Long userId, Long phraseSetId) {
-        return userPhraseCountRepository.getRemainingPhrasesGivenUserIdAndPhraseSetId(userId, phraseSetId);
     }
 
 
